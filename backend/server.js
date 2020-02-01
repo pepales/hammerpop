@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-const anunciosRoute = require('./routes/anuncios');
+const anunciosRoutes = require('./routes/anuncios');
+const authRoutes = require('./routes/auth');
 // app
 
 const app = express();
@@ -39,7 +40,8 @@ if (process.env.NODE_ENV === 'development') {
 
 // routes middleware
 
-app.use('/api', anunciosRoute);
+app.use('/api', anunciosRoutes);
+app.use('/api', authRoutes);
 
 // port
 const port = process.env.PORT || 8000;
