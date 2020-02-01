@@ -2,12 +2,28 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
 // app
 
 const app = express();
+
+// db
+mongoose
+  .connect(process.env.DATABASE_LOCAL, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.info('DB connected'));
+
+mongoose.connection.on('error', function(err) {
+  console.error('mongodb connection error:', err);
+  process.exit(1);
+});
 
 // middlewares
 
