@@ -10,10 +10,12 @@ import {
   NavLink,
 } from 'reactstrap';
 import Router from 'next/router';
+// import icons
+import { FaUserAlt } from 'react-icons/fa';
 import { signout, isAuth } from '../actions/authAction';
 
 // import imgs
-import logo from '../public/static/img/logo.jpg';
+// import logo from '../public/static/img/logo.jpg';
 
 // import env variables
 import { APP_NAME } from '../config';
@@ -39,7 +41,10 @@ const Header = () => {
               <React.Fragment>
                 <NavItem>
                   <Link href="/signup">
-                    <NavLink>Sign up</NavLink>
+                    <NavLink>
+                      <FaUserAlt className="mr-1" />
+                      Sign up
+                    </NavLink>
                   </Link>
                 </NavItem>
                 <NavItem>
