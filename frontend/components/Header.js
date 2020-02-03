@@ -10,13 +10,13 @@ import {
   NavLink,
 } from 'reactstrap';
 import Router from 'next/router';
-// import icons
+// import icons & css
+import '../css/style.css';
 import { FaUserAlt } from 'react-icons/fa';
+//
 import { signout, isAuth } from '../actions/authAction';
-
 // import imgs
 // import logo from '../public/static/img/logo.jpg';
-
 // import env variables
 import { APP_NAME } from '../config';
 
@@ -41,7 +41,7 @@ const Header = () => {
               <React.Fragment>
                 <NavItem>
                   <Link href="/signup">
-                    <NavLink>
+                    <NavLink className="cursorpointer">
                       <FaUserAlt className="mr-1" />
                       Sign up
                     </NavLink>
@@ -49,7 +49,7 @@ const Header = () => {
                 </NavItem>
                 <NavItem>
                   <Link href="/signin">
-                    <NavLink>Sign in</NavLink>
+                    <NavLink className="cursorpointer">Sign in</NavLink>
                   </Link>
                 </NavItem>
               </React.Fragment>
@@ -57,7 +57,8 @@ const Header = () => {
             {isAuth() && (
               <NavItem>
                 <NavLink
-                  onClick={() => signout(() => Router.replace('/signin'))}
+                  className="cursorpointer"
+                  onClick={() => signout(() => Router.replace('/'))}
                 >
                   Sign out
                 </NavLink>
