@@ -62,6 +62,7 @@ const SigninComponent = () => {
             type="email"
             className="form-control"
             placeholder="Type your email"
+            autoComplete="on"
           />
         </div>
         <div className="form-group">
@@ -71,6 +72,7 @@ const SigninComponent = () => {
             type="password"
             className="form-control"
             placeholder="Type your password"
+            autoComplete="on"
           />
         </div>
 

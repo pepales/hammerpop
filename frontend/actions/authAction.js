@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import fetch from 'isomorphic-unfetch';
 import cookie from 'js-cookie';
 import { API } from '../config';
 
