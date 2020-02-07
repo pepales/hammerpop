@@ -8,6 +8,7 @@ require('dotenv').config();
 
 const anunciosRoutes = require('./routes/anuncios');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 // app
 
 const app = express();
@@ -20,9 +21,11 @@ mongoose
     useFindAndModify: false,
     useUnifiedTopology: true,
   })
+  // eslint-disable-next-line no-console
   .then(() => console.info('DB connected'));
 
 mongoose.connection.on('error', function(err) {
+  // eslint-disable-next-line no-console
   console.error('mongodb connection error:', err);
   process.exit(1);
 });
@@ -42,9 +45,11 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api', anunciosRoutes);
 app.use('/api', authRoutes);
+app.use('/api', userRoutes);
 
 // port
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server running on port ${port}`);
 });
