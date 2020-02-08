@@ -2,7 +2,7 @@ import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig();
 
-// it depends on wheter we are in production or development mode it will change
+// it depends on whether we are in production or development mode it will change
 
 export const API = publicRuntimeConfig.PRODUCTION
   ? 'https://hammerpop.com'

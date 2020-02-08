@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -62,6 +63,24 @@ const Header = () => {
                 >
                   Sign out
                 </NavLink>
+              </NavItem>
+            )}
+            {isAuth() && isAuth().role === 0 && (
+              <NavItem>
+                <Link href="/user">
+                <NavLink className="cursorpointer">
+                  {`${isAuth().name}'s Dashboard`}
+                </NavLink>
+                </Link>
+              </NavItem>
+            )}
+            {isAuth() && isAuth().role === 1 && (
+              <NavItem>
+                <Link href="/admin">
+                <NavLink className="cursorpointer">
+                  {`${isAuth().name}'s Dashboard`}
+                </NavLink>
+                </Link>
               </NavItem>
             )}
           </Nav>
