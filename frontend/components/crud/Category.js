@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Router from 'next/router';
+
 import { getCookie } from '../../actions/authActions';
 // eslint-disable-next-line prettier/prettier
 import { create, getCategories, removeCategory } from '../../actions/categoryActions';
@@ -26,6 +25,7 @@ const Category = () => {
   const loadCategories = () => {
     getCategories().then(data => {
       if (data.error) {
+        // eslint-disable-next-line no-console
         console.log(data.error);
       } else {
         setValues({ ...values, categories: data });

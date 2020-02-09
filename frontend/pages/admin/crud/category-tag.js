@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import Layout from '../../../components/Layout';
 import Admin from '../../../components/auth/Admin';
 import Category from '../../../components/crud/Category';
