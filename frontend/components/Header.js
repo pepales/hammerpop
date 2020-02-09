@@ -15,7 +15,7 @@ import Router from 'next/router';
 import '../css/style.css';
 import { FaUserAlt } from 'react-icons/fa';
 //
-import { signout, isAuth } from '../actions/authAction';
+import { signout, isAuth } from '../actions/authActions';
 // import imgs
 // import logo from '../public/static/img/logo.jpg';
 // import env variables

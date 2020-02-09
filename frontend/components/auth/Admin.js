@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
-import { isAuth } from '../../actions/authAction';
+import { isAuth } from '../../actions/authActions';
 
 const Admin = ({ children }) => {
   useEffect(() => {
