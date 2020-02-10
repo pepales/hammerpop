@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
 import { getCookie } from '../../actions/authActions';
 // eslint-disable-next-line prettier/prettier
 import { create, getCategories, removeCategory } from '../../actions/categoryActions';
+import { checkString } from '../../actions/checkform';
 
 const Category = () => {
   const [values, setValues] = useState({
@@ -12,9 +12,10 @@ const Category = () => {
     categories: [],
     removed: false,
     reload: false,
+    check: false,
   });
 
-  const { name, error, success, categories, removed, reload } = values;
+  const { name, error, success, categories, removed, reload, check } = values;
   const token = getCookie('token');
 
   useEffect(() => {
@@ -37,11 +38,11 @@ const Category = () => {
     return categories.map((c, i) => {
       return (
         <button
-          onDoubleClick={() => deleteConfirm(c.slug)}
-          title="Double click to delete"
+          onClick={() => deleteConfirm(c.slug)}
+          title="click to delete"
           key={i}
           className="btn btn-outline-primary mr-1 ml-1 mt-3"
-          type="submit"
+          type="button"
         >
           {c.name}
         </button>
@@ -69,9 +70,8 @@ const Category = () => {
           ...values,
           error: false,
           success: false,
-          name: '',
           removed: true,
-          reload: true,
+          reload: !reload,
         });
       }
     });
@@ -79,22 +79,23 @@ const Category = () => {
 
   const clickSubmit = e => {
     e.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log('RECARGANDOOOO', reload);
     // console.log('create category', name);
-    create({ name }, token).then(data => {
-      if (data.error) {
-        setValues({ ...values, error: data.error, success: false });
-      } else {
-        setValues({
-          ...values,
-          error: false,
-          success: true,
-          removed: false,
-          reload: true,
-        });
-      }
-    });
+    if (checkString(name)) {
+      setValues({ ...values, check: true });
+    } else {
+      create({ name }, token).then(data => {
+        if (data.error) {
+          setValues({ ...values, error: data.error, success: false });
+        } else {
+          setValues({
+            ...values,
+            error: false,
+            success: true,
+            reload: !reload,
+          });
+        }
+      });
+    }
   };
 
   const handleChange = name => e => {
@@ -152,8 +153,29 @@ const Category = () => {
     }
   };
 
+  const showCheck = () => {
+    if (check) {
+      return (
+        <React.Fragment>
+          <p className="text-danger">
+            You can&apos;t create an empty category
+            <button onClick={removeMsg} type="button">
+              X
+            </button>
+          </p>
+        </React.Fragment>
+      );
+    }
+  };
+
   const removeMsg = () => {
-    setValues({ ...values, error: false, success: false, removed: '' });
+    setValues({
+      ...values,
+      error: false,
+      success: false,
+      removed: false,
+      check: false,
+    });
   };
 
   const newCategoryForm = () => (
@@ -168,7 +190,6 @@ const Category = () => {
             onChange={handleChange('name')}
             onFocus={removeMsg}
             value={name}
-            required
           />
         </label>
       </div>
@@ -185,6 +206,7 @@ const Category = () => {
       {showSuccess()}
       {showError()}
       {showRemoved()}
+      {showCheck()}
       {newCategoryForm()}
       {showCategories()}
     </React.Fragment>

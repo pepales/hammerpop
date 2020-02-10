@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getCookie } from '../../actions/authActions';
 import { create, getTags, removeTag } from '../../actions/tagActions';
+import { checkString } from '../../actions/checkform';
 
 const Tag = () => {
   const [values, setValues] = useState({
@@ -10,18 +11,22 @@ const Tag = () => {
     tags: [],
     removed: false,
     reload: false,
+    check: false,
   });
 
-  const { name, error, success, tags, removed, reload } = values;
+  const { name, error, success, tags, removed, reload, check } = values;
   const token = getCookie('token');
 
   useEffect(() => {
     loadTags();
-  }, [loadTags, reload]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reload]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const loadTags = () => {
     getTags().then(data => {
       if (data.error) {
+        // eslint-disable-next-line no-console
         console.log(data.error);
       } else {
         setValues({ ...values, tags: data });
@@ -33,11 +38,11 @@ const Tag = () => {
     return tags.map((t, i) => {
       return (
         <button
-          onDoubleClick={() => deleteConfirm(t.slug)}
-          title="Double click to delete"
+          onClick={() => deleteConfirm(t.slug)}
+          title="click to delete"
           key={i}
           className="btn btn-outline-primary mr-1 ml-1 mt-3"
-          type="submit"
+          type="button"
         >
           {t.name}
         </button>
@@ -63,8 +68,7 @@ const Tag = () => {
           ...values,
           error: false,
           success: false,
-          name: '',
-          removed: !removed,
+          removed: true,
           reload: !reload,
         });
       }
@@ -74,26 +78,28 @@ const Tag = () => {
   const clickSubmit = e => {
     e.preventDefault();
     // console.log('create category', name);
-    create({ name }, token).then(data => {
-      if (data.error) {
-        setValues({ ...values, error: data.error, success: false });
-      } else {
-        setValues({
-          ...values,
-          error: false,
-          success: false,
-          name: '',
-          removed: !removed,
-          reload: !reload,
-        });
-      }
-    });
+    if (checkString(name)) {
+      setValues({ ...values, check: true });
+    } else {
+      create({ name }, token).then(data => {
+        if (data.error) {
+          setValues({ ...values, error: data.error, success: false });
+        } else {
+          setValues({
+            ...values,
+            error: false,
+            success: true,
+            reload: !reload,
+          });
+        }
+      });
+    }
   };
 
-  const handleChange = e => {
+  const handleChange = name => e => {
     setValues({
       ...values,
-      name: e.target.value,
+      [name]: e.target.value,
       error: false,
       success: false,
       removed: '',
@@ -102,37 +108,87 @@ const Tag = () => {
 
   const showSuccess = () => {
     if (success) {
-      return <p className="text-success">Tag is created</p>;
+      return (
+        <React.Fragment>
+          <p className="text-success">
+            Tag is created
+            <button onClick={removeMsg} type="button">
+              X
+            </button>
+          </p>
+        </React.Fragment>
+      );
     }
   };
 
   const showError = () => {
     if (error) {
-      return <p className="text-danger">Tag already exist</p>;
+      return (
+        <React.Fragment>
+          <p className="text-danger">
+            Tag already exist
+            <button onClick={removeMsg} type="button">
+              X
+            </button>
+          </p>
+        </React.Fragment>
+      );
     }
   };
 
   const showRemoved = () => {
     if (removed) {
-      return <p className="text-danger">Tag is removed</p>;
+      return (
+        <React.Fragment>
+          <p className="text-danger">
+            Tag is removed
+            <button onClick={removeMsg} type="button">
+              X
+            </button>
+          </p>
+        </React.Fragment>
+      );
+    }
+  };
+
+  const showCheck = () => {
+    if (check) {
+      return (
+        <React.Fragment>
+          <p className="text-danger">
+            You can&apos;t create an empty tag
+            <button onClick={removeMsg} type="button">
+              X
+            </button>
+          </p>
+        </React.Fragment>
+      );
     }
   };
 
   const removeMsg = () => {
-    setValues({ ...values, error: false, success: false, removed: '' });
+    setValues({
+      ...values,
+      error: false,
+      success: false,
+      removed: false,
+      check: false,
+    });
   };
 
   const newTagForm = () => (
     <form onSubmit={clickSubmit}>
       <div className="form-group">
-        <label className="text-muted">Name</label>
-        <input
-          type="text"
-          className="form-control"
-          onChange={handleChange}
-          value={name}
-          required
-        />
+        <label className="text-muted" htmlFor="name">
+          Name
+          <input
+            type="text"
+            className="form-control"
+            onChange={handleChange('name')}
+            onFocus={removeMsg}
+            value={name}
+          />
+        </label>
       </div>
       <div>
         <button type="submit" className="btn btn-primary">
@@ -147,6 +203,7 @@ const Tag = () => {
       {showSuccess()}
       {showError()}
       {showRemoved()}
+      {showCheck()}
       {newTagForm()}
       {showTags()}
     </React.Fragment>
