@@ -18,6 +18,32 @@ exports.create = (req, res) => {
     }
 
     const { title, description, price, adtype, categories, tags } = fields;
+    let arrayCategories = categories && categories.split(',');
+    let arrayTags = tags && tags.split(',');
+
+    if (!title || !title.length) {
+      return res.status(400).json({
+        error: 'title is required',
+      });
+    }
+
+    if (!description || description.length < 10) {
+      return res.status(400).json({
+        error: 'Description is too short',
+      });
+    }
+
+    if (!categories || categories.length === 0) {
+      return res.status(400).json({
+        error: 'At least one category is required',
+      });
+    }
+
+    if (!tags || tags.length === 0) {
+      return res.status(400).json({
+        error: 'At least one tag is required',
+      });
+    }
 
     let advert = new Advert();
     advert.title = title;
@@ -46,6 +72,31 @@ exports.create = (req, res) => {
         });
       }
       res.json(result);
+      Advert.findByIdAndUpdate(
+        result._id,
+        { $push: { categories: arrayCategories } },
+        { new: true }
+      ).exec((err, result) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler(err),
+          });
+        } else {
+          Advert.findByIdAndUpdate(
+            result._id,
+            { $push: { tags: arrayTags } },
+            { new: true }
+          ).exec((err, result) => {
+            if (err) {
+              return res.status(400).json({
+                error: errorHandler(err),
+              });
+            } else {
+              res.json(result);
+            }
+          });
+        }
+      });
     });
   });
 };
