@@ -31,6 +31,18 @@ exports.create = (req, res) => {
       });
     }
 
+    if (!adtype) {
+      return res.status(400).json({
+        error: 'Advert type must be buy or sell',
+      });
+    }
+
+    if (!price) {
+      return res.status(400).json({
+        error: 'Price can`t be empty',
+      });
+    }
+
     if (!categories || categories.length === 0) {
       return res.status(400).json({
         error: 'At least one category is required',
@@ -69,7 +81,7 @@ exports.create = (req, res) => {
           error: errorHandler(err),
         });
       }
-      res.json(result);
+      // res.json(result);
       Advert.findByIdAndUpdate(
         result._id,
         { $push: { categories: arrayCategories } },
