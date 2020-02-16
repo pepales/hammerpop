@@ -20,6 +20,8 @@ const CreateAdvert = ({ router }) => {
     formData: '',
     title: '',
     description: '',
+    adtype: '',
+    price: '',
     hidePublishButton: false,
   });
 
@@ -30,6 +32,8 @@ const CreateAdvert = ({ router }) => {
     formData,
     title,
     description,
+    adtype,
+    price,
     hidePublishButton,
   } = values;
 
@@ -64,20 +68,19 @@ const CreateAdvert = ({ router }) => {
 
   const publishAdvert = e => {
     e.preventDefault();
-    // console.log('ready to publishBlog');
     createAdvert(formData, token).then(data => {
       if (data.error) {
-        console.log('QUE TENEMOS', data.error);
         setValues({ ...values, error: data.error });
       } else {
         setValues({
           ...values,
           title: '',
+          description: '',
+          price: 0,
+          adtype: '',
           error: '',
           success: `A new advert titled "${data.title}" is created`,
         });
-        setCategories([]);
-        setTags([]);
       }
     });
   };
@@ -153,6 +156,24 @@ const CreateAdvert = ({ router }) => {
     );
   };
 
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? '' : 'none' }}
+    >
+      {error}
+    </div>
+  );
+
+  const showSuccess = () => (
+    <div
+      className="alert alert-success"
+      style={{ display: success ? '' : 'none' }}
+    >
+      {success}
+    </div>
+  );
+
   const createAdvertForm = () => {
     return (
       <form onSubmit={publishAdvert}>
@@ -178,6 +199,41 @@ const CreateAdvert = ({ router }) => {
             value={description}
           ></textarea>
         </div>
+        <div className="form-group">
+          <label className="text-muted" htmlFor="price">
+            Price
+          </label>
+          <input
+            type="number"
+            className="form-control"
+            value={price}
+            onChange={handleChange('price')}
+          />
+        </div>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            onChange={handleChange('adtype')}
+            type="radio"
+            value="buy"
+            checked={adtype === 'buy'}
+          />
+          <label className="form-check-label" htmlFor="buy">
+            Buy
+          </label>
+        </div>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            onChange={handleChange('adtype')}
+            type="radio"
+            value="sell"
+            checked={adtype === 'sell'}
+          />
+          <label className="form-check-label" htmlFor="sell">
+            Sell
+          </label>
+        </div>
 
         <div>
           <button type="submit" className="btn btn-primary">
@@ -193,12 +249,10 @@ const CreateAdvert = ({ router }) => {
       <div className="row">
         <div className="col-md-8">
           {createAdvertForm()}
-          <hr />
-          {JSON.stringify(title)}
-          <hr />
-          {JSON.stringify(categories)}
-          <hr />
-          {JSON.stringify(tags)}
+          <div className="pt-3">
+            {showError()}
+            {showSuccess()}
+          </div>
         </div>
 
         <div className="col-md-4">

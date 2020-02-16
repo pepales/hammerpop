@@ -3,10 +3,10 @@ import { API } from '../config';
 
 export const createAdvert = (advert, token) => {
   return (
-    fetch(`${API}/advert`, {
+    fetch(`${API}/adverts`, {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
+        Accept: 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
       body: advert,
