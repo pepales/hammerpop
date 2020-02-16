@@ -4,8 +4,6 @@ const slugify = require('slugify');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 const Advert = require('../models/advert');
-const Category = require('../models/category');
-const Tag = require('../models/tags');
 
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
