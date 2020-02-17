@@ -146,7 +146,7 @@ exports.listAllAdvertCategoriesTags = (req, res) => {
     .skip(skip)
     .limit(limit)
     .select(
-      '_id title slug excerpt categories tags postedBy createdAt updatedAt'
+      '_id title slug description categories tags postedBy createdAt updatedAt'
     )
     .exec((err, data) => {
       if (err) {

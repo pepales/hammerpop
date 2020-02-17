@@ -18,3 +18,19 @@ export const createAdvert = (advert, token) => {
       .catch(err => console.log(err))
   );
 };
+
+export const listAdvertsWithCategoriesAndTags = () => {
+  return (
+    fetch(`${API}/advert-categories-tags`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+    })
+      .then(response => {
+        return response.json();
+      })
+      // eslint-disable-next-line no-console
+      .catch(err => console.log(err))
+  );
+};
