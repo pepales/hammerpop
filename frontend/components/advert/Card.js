@@ -21,7 +21,7 @@ const Card = ({ advert }) => {
   return (
     <div className="lead pb-4">
       <header>
-        <Link href={`/advert/${advert.slug}`}>
+        <Link href={`/adverts/${advert.slug}`}>
           <a>
             <h2 className="pt-3 pb-3 font-weight-bold">{advert.title}</h2>
           </a>
@@ -54,7 +54,7 @@ const Card = ({ advert }) => {
         <div className="col-md-8">
           <section>
             <div className="pb-3">{advert.description}</div>
-            <Link href={`/blogs/${advert.slug}`}>
+            <Link href={`/adverts/${advert.slug}`}>
               <a className="btn btn-primary pt-2">Read more</a>
             </Link>
           </section>
