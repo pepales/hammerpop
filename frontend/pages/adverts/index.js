@@ -1,10 +1,41 @@
-import React from 'react';
-// import renderHTML from 'react-render-html';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { withRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import { listAdvertsWithCategoriesAndTags } from '../../actions/advertActions';
 import Card from '../../components/advert/Card';
 
-const Adverts = ({ adverts, categories, tags, size }) => {
+// eslint-disable-next-line prettier/prettier
+const Adverts = ({ adverts, categories, tags, totalBlogs, advertsLimit, advertSkip, router }) => {
+  const [limit, setLimit] = useState(advertsLimit);
+  const [skip, setSkip] = useState(0);
+  const [size, setSize] = useState(totalBlogs);
+  const [loadedAdverts, setloadedAdverts] = useState([]);
+
+  const loadMore = () => {
+    let toSkip = skip + limit;
+    listAdvertsWithCategoriesAndTags(toSkip, limit).then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setloadedAdverts([...loadedAdverts, ...data.adverts]);
+        setSize(data.size);
+        setSkip(toSkip);
+      }
+    });
+  };
+
+  const loadMoreButton = () => {
+    return (
+      size > 0 &&
+      size >= limit && (
+        <button onClick={loadMore} className="btn btn-outline-primary btn-lg">
+          Load mmore
+        </button>
+      )
+    );
+  };
+
   const showAllAdverts = () => {
     return adverts.map((advert, i) => {
       // ()
@@ -15,6 +46,30 @@ const Adverts = ({ adverts, categories, tags, size }) => {
         </article>
       );
     });
+  };
+
+  const showAllCategories = () => {
+    return categories.map((c, i) => (
+      <Link href={`/categories/${c.slug}`} key={i}>
+        <a className="btn btn-primary mr-1 ml-1 mt-3">{c.name}</a>
+      </Link>
+    ));
+  };
+
+  const showAllTags = () => {
+    return tags.map((t, i) => (
+      <Link href={`/tags/${t.slug}`} key={i}>
+        <a className="btn btn-outline-primary mr-1 ml-1 mt-3">{t.name}</a>
+      </Link>
+    ));
+  };
+
+  const showLoadedAdverts = () => {
+    return loadedAdverts.map((advert, i) => (
+      <article key={i}>
+        <Card advert={advert} />
+      </article>
+    ));
   };
 
   return (
@@ -28,14 +83,18 @@ const Adverts = ({ adverts, categories, tags, size }) => {
               </h1>
             </div>
             <section>
-              <p>show categories and tags</p>
+              <div className="pb-5 text-center">
+                {showAllCategories()}
+                <br />
+                {showAllTags()}
+              </div>
             </section>
           </header>
         </div>
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">{showAllAdverts()}</div>
-          </div>
+          <div className="col-md-12">{showAllAdverts()}</div>
+          <div className="container-fluid">{showLoadedAdverts()}</div>
+          <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
         </div>
       </main>
     </Layout>
@@ -43,6 +102,8 @@ const Adverts = ({ adverts, categories, tags, size }) => {
 };
 
 Adverts.getInitialProps = () => {
+  let skip = 0;
+  let limit = 2;
   return listAdvertsWithCategoriesAndTags().then(data => {
     if (data.error) {
       // eslint-disable-next-line no-console
@@ -52,10 +113,12 @@ Adverts.getInitialProps = () => {
         adverts: data.adverts,
         categories: data.categories,
         tags: data.tags,
-        size: data.size,
+        totalBlogs: data.size,
+        advertsLimit: limit,
+        advertSkip: skip,
       };
     }
   });
 };
 
-export default Adverts;
+export default withRouter(Adverts);

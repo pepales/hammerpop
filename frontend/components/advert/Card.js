@@ -21,7 +21,7 @@ const Card = ({ advert }) => {
   return (
     <div className="lead pb-4">
       <header>
-        <Link href={`/blogs/${advert.slug}`}>
+        <Link href={`/advert/${advert.slug}`}>
           <a>
             <h2 className="pt-3 pb-3 font-weight-bold">{advert.title}</h2>
           </a>

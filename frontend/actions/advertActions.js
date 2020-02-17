@@ -19,13 +19,32 @@ export const createAdvert = (advert, token) => {
   );
 };
 
-export const listAdvertsWithCategoriesAndTags = () => {
+export const listAdvertsWithCategoriesAndTags = (skip, limit) => {
+  const data = {
+    limit,
+    skip,
+  };
   return (
     fetch(`${API}/advert-categories-tags`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify(data),
+    })
+      .then(response => {
+        return response.json();
+      })
+      // eslint-disable-next-line no-console
+      .catch(err => console.log(err))
+  );
+};
+
+export const singleAdvert = slug => {
+  return (
+    fetch(`${API}/advert/${slug}`, {
+      method: 'GET',
     })
       .then(response => {
         return response.json();
