@@ -3,7 +3,7 @@ import { API } from '../config';
 
 export const createAdvert = (advert, token) => {
   return (
-    fetch(`${API}/adverts`, {
+    fetch(`${API}/advert`, {
       method: 'POST',
       headers: {
         Accept: 'multipart/form-data',

@@ -1,9 +1,12 @@
 const fs = require('fs');
 const formidable = require('formidable');
 const slugify = require('slugify');
+const _ = require('lodash');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 const Advert = require('../models/advert');
+const Category = require('../models/category');
+const Tag = require('../models/tags');
 
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
@@ -109,4 +112,177 @@ exports.create = (req, res) => {
       });
     });
   });
+};
+
+exports.list = (req, res) => {
+  Advert.find({})
+    .populate('categories', '_id name slug')
+    .populate('tags', '_id name slug')
+    .populate('postedBy', '_id name username')
+    .select('_id title slug categories tags postedBy createdAt updatedAt')
+    .exec((err, data) => {
+      if (err) {
+        return res.json({
+          error: errorHandler(err),
+        });
+      }
+      res.json(data);
+    });
+};
+
+exports.listAllAdvertCategoriesTags = (req, res) => {
+  let limit = req.body.limit ? parseInt(req.body.limit) : 10;
+  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+
+  let adverts;
+  let categories;
+  let tags;
+
+  Advert.find({})
+    .populate('categories', '_id name slug')
+    .populate('tags', '_id name slug')
+    .populate('postedBy', '_id name username profile')
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .select(
+      '_id title slug excerpt categories tags postedBy createdAt updatedAt'
+    )
+    .exec((err, data) => {
+      if (err) {
+        return res.json({
+          error: errorHandler(err),
+        });
+      }
+      adverts = data; // adverts
+      // get all categories
+      Category.find({}).exec((err, c) => {
+        if (err) {
+          return res.json({
+            error: errorHandler(err),
+          });
+        }
+        categories = c; // categories
+        // get all tags
+        Tag.find({}).exec((err, t) => {
+          if (err) {
+            return res.json({
+              error: errorHandler(err),
+            });
+          }
+          tags = t;
+          // return all adverts categories tags
+          res.json({ adverts, categories, tags, size: adverts.length });
+        });
+      });
+    });
+};
+
+exports.read = (req, res) => {
+  const slug = req.params.slug.toLowerCase();
+  Advert.findOne({ slug })
+    .populate('categories', '_id name slug')
+    .populate('tags', '_id name slug')
+    .populate('postedBy', '_id name username')
+    .select(
+      '_id title slug mtitle mdesc categories tags postedBy createdAt updatedAt'
+    )
+    .exec((err, data) => {
+      if (err) {
+        return res.json({
+          error: errorHandler(err),
+        });
+      }
+      res.json(data);
+    });
+};
+
+exports.remove = (req, res) => {
+  const slug = req.params.slug.toLowerCase();
+  Advert.findOneAndRemove({ slug }).exec(err => {
+    if (err) {
+      return res.json({
+        error: errorHandler(err),
+      });
+    }
+    res.json({
+      message: 'Advert deleted successfully',
+    });
+  });
+};
+
+exports.update = (req, res) => {
+  const slug = req.params.slug.toLowerCase();
+
+  Advert.findOne({ slug }).exec((err, oldAdvert) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+
+    let form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+
+    form.parse(req, (err, fields, files) => {
+      if (err) {
+        return res.status(400).json({
+          error: 'Image could not upload',
+        });
+      }
+
+      let slugBeforeMerge = oldAdvert.slug;
+      oldAdvert = _.merge(oldAdvert, fields);
+      oldAdvert.slug = slugBeforeMerge;
+
+      const { description, categories, tags } = fields;
+
+      if (description) {
+        oldAdvert.description = description;
+      }
+
+      if (categories) {
+        oldAdvert.categories = categories.split(',');
+      }
+
+      if (tags) {
+        oldAdvert.tags = tags.split(',');
+      }
+
+      if (files.photo) {
+        if (files.photo.size > 10000000) {
+          return res.status(400).json({
+            error: 'Image should be less then 1mb in size',
+          });
+        }
+        oldAdvert.photo.data = fs.readFileSync(files.photo.path);
+        oldAdvert.photo.contentType = files.photo.type;
+      }
+
+      oldAdvert.save((err, result) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler(err),
+          });
+        }
+        // result.photo = undefined;
+        res.json(result);
+      });
+    });
+  });
+};
+
+exports.photo = (req, res) => {
+  const slug = req.params.slug.toLowerCase();
+  Advert.findOne({ slug })
+    .select('photo')
+    .exec((err, advert) => {
+      if (err || !advert) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.set('Content-Type', advert.photo.contentType);
+      return res.send(advert.photo.data);
+    });
 };
