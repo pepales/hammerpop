@@ -53,3 +53,18 @@ export const singleAdvert = slug => {
       .catch(err => console.log(err))
   );
 };
+
+export const listRelated = advert => {
+  return fetch(`${API}/adverts/related`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(advert),
+  })
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log(err));
+};

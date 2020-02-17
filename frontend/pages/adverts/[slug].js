@@ -1,11 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import moment from 'moment';
 import Layout from '../../components/Layout';
-import { singleAdvert } from '../../actions/advertActions';
+import { singleAdvert, listRelated } from '../../actions/advertActions';
 import { API } from '../../config';
+import SmallCard from '../../components/advert/SmallCard';
 
 const SingleAdvert = ({ advert }) => {
+  const [related, setRelated] = useState([]);
+
+  const loadRelated = () => {
+    listRelated({ advert }).then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setRelated(data);
+      }
+    });
+  };
+
+  useEffect(() => {
+    loadRelated();
+    // eslint-disable-next-line
+  }, []);
+
   const showAdvertCategories = advert =>
     advert.categories.map((c, i) => (
       <Link key={i} href={`/categories/${c.slug}`}>
@@ -19,6 +37,16 @@ const SingleAdvert = ({ advert }) => {
         <a className="btn btn-outline-primary mr-1 ml-1 mt-3">{t.name}</a>
       </Link>
     ));
+
+  const showRelatedAdvert = () => {
+    return related.map((advert, i) => (
+      <div className="col-md-4" key={i}>
+        <article>
+          <SmallCard advert={advert} />
+        </article>
+      </div>
+    ));
+  };
 
   return (
     <React.Fragment>
@@ -59,8 +87,7 @@ const SingleAdvert = ({ advert }) => {
 
             <div className="container">
               <h4 className="text-center pt-5 pb-5 h2">Related blogs</h4>
-              <hr />
-              <p>show related blogs</p>
+              <div className="row">{showRelatedAdvert()}</div>
             </div>
           </article>
         </main>
@@ -74,7 +101,7 @@ SingleAdvert.getInitialProps = ({ query }) => {
     if (data.error) {
       console.log(data.error);
     } else {
-      return { advert: data };
+      return { advert: data, query };
     }
   });
 };

@@ -286,3 +286,22 @@ exports.photo = (req, res) => {
       return res.send(advert.photo.data);
     });
 };
+
+exports.listRelated = (req, res) => {
+  let limit = req.body.limit ? parseInt(req.body.limit) : 3;
+  const { _id, categories } = req.body.advert;
+
+  Advert.find({ _id: { $ne: _id }, categories: { $in: categories } })
+    .limit(limit)
+    .populate('postedBy', '_id name profile')
+    .select('title slug description postedBy createdAt updatedAt')
+    .exec((err, adverts) => {
+      if (err) {
+        return res.status(400).json({
+          error: 'Adverts not found',
+        });
+      } else {
+        res.json(adverts);
+      }
+    });
+};

@@ -9,6 +9,7 @@ const {
   remove,
   update,
   photo,
+  listRelated,
 } = require('../controllers/advertsCtrlr');
 
 const { requireSignin, adminMiddleware } = require('../controllers/authCtrlr');
@@ -20,5 +21,6 @@ router.get('/advert/:slug', read);
 router.delete('/advert/:slug', requireSignin, adminMiddleware, remove);
 router.put('/advert/:slug', requireSignin, adminMiddleware, update);
 router.get('/advert/photo/:slug', photo);
+router.post('/adverts/related', listRelated);
 
 module.exports = router;
