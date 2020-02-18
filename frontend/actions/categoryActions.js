@@ -20,15 +20,17 @@ export const create = (category, token) => {
   );
 };
 
-export const getCategories = async () => {
-  return await fetch(`${API}/categories`, {
-    method: 'GET',
-  })
-    .then(response => {
-      return response.json();
+export const getCategories = () => {
+  return (
+    fetch(`${API}/categories`, {
+      method: 'GET',
     })
-    // eslint-disable-next-line no-console
-    .catch(err => console.log(err));
+      .then(response => {
+        return response.json();
+      })
+      // eslint-disable-next-line no-console
+      .catch(err => console.log(err))
+  );
 };
 
 export const singleCategory = slug => {

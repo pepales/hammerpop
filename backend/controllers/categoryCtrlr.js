@@ -1,5 +1,6 @@
 const slugify = require('slugify');
 const Category = require('../models/category');
+const Advert = require('../models/advert');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.create = (req, res) => {
@@ -38,7 +39,21 @@ exports.read = (req, res) => {
         error: errorHandler(err),
       });
     }
-    res.json(category);
+    Advert.find({ categories: category })
+      .populate('categories', '_id name slug')
+      .populate('tags', '_id name slug')
+      .populate('postedBy', '_id name')
+      .select(
+        '_id title slug description categories postedBy tags createdAt updatedAt'
+      )
+      .exec((err, data) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler(err),
+          });
+        }
+        res.json({ category: category, adverts: data });
+      });
   });
 };
 
