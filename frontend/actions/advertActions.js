@@ -68,3 +68,43 @@ export const listRelated = advert => {
     })
     .catch(err => console.log(err));
 };
+
+export const list = () => {
+  return fetch(`${API}/adverts`, {
+    method: 'GET',
+  })
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log(err));
+};
+
+export const removeAdvert = (slug, token) => {
+  return fetch(`${API}/advert/${slug}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log(err));
+};
+
+export const updateAdvert = (advert, token, slug) => {
+  return fetch(`${API}/advert/${slug}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: advert,
+  })
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log(err));
+};

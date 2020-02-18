@@ -24,6 +24,11 @@ const AdminIndex = () => {
                     <a>Create Advert</a>
                   </Link>
                 </li>
+                <li className="list-group-item">
+                  <Link href="/admin/crud/adverts">
+                    <a>Update/Delete Advert</a>
+                  </Link>
+                </li>
               </ul>
             </div>
             <div className="col-md-8">right</div>
