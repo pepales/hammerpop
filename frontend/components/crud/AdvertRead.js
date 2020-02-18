@@ -43,6 +43,22 @@ const AdvertRead = () => {
     }
   };
 
+  const showUpdateButton = advert => {
+    if (isAuth() && isAuth().role === 0) {
+      return (
+        <Link href={`/user/crud/${advert.slug}`}>
+          <a className="btn btn-sm btn-warning">Update</a>
+        </Link>
+      );
+    } else if (isAuth() && isAuth().role === 1) {
+      return (
+        <Link href={`/admin/crud/${advert.slug}`}>
+          <a className="ml-2 btn btn-sm btn-warning">Update</a>
+        </Link>
+      );
+    }
+  };
+
   const showAllAdverts = () => {
     return adverts.map((advert, i) => {
       return (
@@ -58,6 +74,7 @@ const AdvertRead = () => {
           >
             Delete
           </button>
+          {showUpdateButton(advert)}
         </div>
       );
     });
