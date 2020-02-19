@@ -305,3 +305,26 @@ exports.listRelated = (req, res) => {
       }
     });
 };
+
+exports.listSearch = (req, res) => {
+  const { search } = req.query;
+  if (search) {
+    Advert.find(
+      {
+        $or: [
+          { title: { $regex: search, $options: 'i' } },
+          { description: { $regex: search, $options: 'i' } },
+        ],
+      },
+      (err, adverts) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler(err),
+          });
+        }
+        res.json(adverts);
+      }
+      // we don't want to send
+    ).select('-photo');
+  }
+};
