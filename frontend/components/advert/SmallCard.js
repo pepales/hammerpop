@@ -32,8 +32,8 @@ const SmallCard = ({ advert }) => {
 
       <div className="card-body">
         Posted {moment(advert.updatedAt).fromNow()} by{' '}
-        <Link href="/">
-          <a className="float-right">{advert.postedBy.name}</a>
+        <Link href={`/profile/${advert.postedBy.username}`}>
+          <a>{advert.postedBy.username}</a>
         </Link>
       </div>
     </div>

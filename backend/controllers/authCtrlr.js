@@ -33,9 +33,9 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-  const { email_, password } = req.body;
+  const { email, password } = req.body;
   // check if user exist
-  User.findOne({ email_ }).exec((err, user) => {
+  User.findOne({ email }).exec((err, user) => {
     if (err || !user) {
       return res.status(400).json({
         error: 'User with that email does not exist. Please signup.',

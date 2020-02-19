@@ -29,8 +29,11 @@ const Card = ({ advert }) => {
       </header>
       <section>
         <p className="mark ml-1 pt-2 pb-2">
-          Written by {advert.postedBy.name} | Published{' '}
-          {moment(advert.updatedAt).fromNow()}
+          Written by{' '}
+          <Link href={`/profile/${advert.postedBy.username}`}>
+            <a>{advert.postedBy.username}</a>
+          </Link>{' '}
+          | Published {moment(advert.updatedAt).fromNow()}
         </p>
       </section>
       <section>

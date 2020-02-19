@@ -65,7 +65,7 @@ const AdvertRead = () => {
         <div key={i} className="pb-5">
           <h3>{advert.title}</h3>
           <p className="mark">
-            Written by {advert.postedBy.name} | Published on{' '}
+            Written by {advert.postedBy.username} | Published on{' '}
             {moment(advert.updatedAt).fromNow()}
           </p>
           <button

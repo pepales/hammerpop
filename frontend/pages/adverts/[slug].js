@@ -66,8 +66,11 @@ const SingleAdvert = ({ advert }) => {
 
               <section>
                 <p className="lead mt-3 mark">
-                  Written by {advert.postedBy.name} | Published{' '}
-                  {moment(advert.updatedAt).fromNow()}
+                  Written by{' '}
+                  <Link href={`/profile/${advert.postedBy.username}`}>
+                    <a>{advert.postedBy.username}</a>
+                  </Link>{' '}
+                  | Published {moment(advert.updatedAt).fromNow()}
                 </p>
 
                 <div className="pb-3">

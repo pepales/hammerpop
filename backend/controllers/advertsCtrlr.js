@@ -293,7 +293,7 @@ exports.listRelated = (req, res) => {
 
   Advert.find({ _id: { $ne: _id }, categories: { $in: categories } })
     .limit(limit)
-    .populate('postedBy', '_id name profile')
+    .populate('postedBy', '_id name username profile')
     .select('title slug description postedBy createdAt updatedAt')
     .exec((err, adverts) => {
       if (err) {
