@@ -1,10 +1,18 @@
 import fetch from 'isomorphic-unfetch';
 import queryString from 'query-string';
 import { API } from '../config';
+import { isAuth } from './authActions';
 
 export const createAdvert = (advert, token) => {
+  let createAdvertEndpoint;
+
+  if (isAuth() && isAuth().role === 1) {
+    createAdvertEndpoint = `${API}/advert`;
+  } else if (isAuth() && isAuth().role === 0) {
+    createAdvertEndpoint = `${API}/user/advert`;
+  }
   return (
-    fetch(`${API}/advert`, {
+    fetch(`${createAdvertEndpoint}`, {
       method: 'POST',
       headers: {
         Accept: 'multipart/form-data',

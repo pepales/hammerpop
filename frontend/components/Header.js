@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -20,7 +19,7 @@ import { signout, isAuth } from '../actions/authActions';
 // import logo from '../public/static/img/logo.jpg';
 // import env variables
 import { APP_NAME } from '../config';
-import Search from './advert/Search'
+import Search from './advert/Search';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,13 +35,12 @@ const Header = () => {
           {/* <img src={logo} alt="hammerpop" /> */}
           {APP_NAME}
         </NavbarBrand>
-        
+
         <NavbarToggler onClick={toggle} />
-        
+
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-          
-          <React.Fragment>
+            <React.Fragment>
               <NavItem>
                 <Link href="/adverts">
                   <NavLink className="cursorpointer">Adverts</NavLink>
@@ -80,21 +78,29 @@ const Header = () => {
             {isAuth() && isAuth().role === 0 && (
               <NavItem>
                 <Link href="/user">
-                <NavLink className="cursorpointer">
-                  {`${isAuth().name}'s Dashboard`}
-                </NavLink>
+                  <NavLink className="cursorpointer">
+                    {`${isAuth().name}'s Dashboard`}
+                  </NavLink>
                 </Link>
               </NavItem>
             )}
             {isAuth() && isAuth().role === 1 && (
               <NavItem>
                 <Link href="/admin">
-                <NavLink className="cursorpointer">
-                  {`${isAuth().name}'s Dashboard`}
-                </NavLink>
+                  <NavLink className="cursorpointer">
+                    {`${isAuth().name}'s Dashboard`}
+                  </NavLink>
                 </Link>
               </NavItem>
             )}
+
+            <NavItem>
+              <Link href="/user/crud/create">
+                <NavLink className="btn btn-primary text-light">
+                  Publish an advert
+                </NavLink>
+              </Link>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>
