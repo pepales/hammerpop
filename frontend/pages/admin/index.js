@@ -29,9 +29,12 @@ const AdminIndex = () => {
                     <a>Update/Delete Advert</a>
                   </Link>
                 </li>
+
+                <li className="list-group-item">
+                  <a href="/user/update">Update profile</a>
+                </li>
               </ul>
             </div>
-            <div className="col-md-8">right</div>
           </div>
         </div>
       </Admin>
