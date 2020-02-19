@@ -20,6 +20,7 @@ import { signout, isAuth } from '../actions/authActions';
 // import logo from '../public/static/img/logo.jpg';
 // import env variables
 import { APP_NAME } from '../config';
+import Search from './advert/Search'
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,10 +36,12 @@ const Header = () => {
           {/* <img src={logo} alt="hammerpop" /> */}
           {APP_NAME}
         </NavbarBrand>
+        
         <NavbarToggler onClick={toggle} />
+        
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-
+          
           <React.Fragment>
               <NavItem>
                 <Link href="/adverts">
@@ -95,6 +98,7 @@ const Header = () => {
           </Nav>
         </Collapse>
       </Navbar>
+      <Search />
     </div>
   );
 };
