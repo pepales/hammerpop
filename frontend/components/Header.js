@@ -42,6 +42,13 @@ const Header = () => {
           <Nav className="ml-auto" navbar>
             <React.Fragment>
               <NavItem>
+                <Link href="/contact">
+                  <NavLink className="cursorpointer">Contact</NavLink>
+                </Link>
+              </NavItem>
+            </React.Fragment>
+            <React.Fragment>
+              <NavItem>
                 <Link href="/adverts">
                   <NavLink className="cursorpointer">Adverts</NavLink>
                 </Link>
