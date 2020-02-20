@@ -34,7 +34,7 @@ router.get('/adverts/search', listSearch);
 // auth user advert crud
 
 router.post('/user/advert', requireSignin, authMiddleware, create);
-router.get('/:username/advertss', listByUser);
+router.get('/:username/adverts', listByUser);
 // eslint-disable-next-line prettier/prettier
 router.delete('/user/advert/:slug', requireSignin, authMiddleware, canUpdateDeleteAdvert, remove);
 // eslint-disable-next-line prettier/prettier

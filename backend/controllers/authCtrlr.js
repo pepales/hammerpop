@@ -108,7 +108,7 @@ exports.adminMiddleware = (req, res, next) => {
 
 exports.canUpdateDeleteAdvert = (req, res, next) => {
   const slug = req.params.slug.toLowerCase();
-  Advert.finOne({ slug }).exec((err, data) => {
+  Advert.findOne({ slug }).exec((err, data) => {
     if (err) {
       return res.status(400).json({
         error: errorHandler(err),
