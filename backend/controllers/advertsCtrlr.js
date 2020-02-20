@@ -3,10 +3,10 @@ const formidable = require('formidable');
 const slugify = require('slugify');
 const _ = require('lodash');
 const { errorHandler } = require('../helpers/dbErrorHandler');
-
 const Advert = require('../models/advert');
 const Category = require('../models/category');
 const Tag = require('../models/tags');
+const User = require('../models/user');
 
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
@@ -327,4 +327,28 @@ exports.listSearch = (req, res) => {
       // we don't want to send
     ).select('-photo');
   }
+};
+
+exports.listByUser = (req, res) => {
+  User.findOne({ username: req.params.username }).exec((err, user) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    let userId = user._id;
+    Advert.find({ postedBy: userId })
+      .populate('categories', '_id name slug')
+      .populate('tags', '_id name slug')
+      .populate('postedBy', '_id name username')
+      .select('_id title slug postedBy createdAt updatedAt')
+      .exec((err, data) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler(err),
+          });
+        }
+        res.json(data);
+      });
+  });
 };

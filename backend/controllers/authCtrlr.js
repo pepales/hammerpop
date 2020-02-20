@@ -2,6 +2,8 @@ const shortId = require('shortid');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const User = require('../models/user');
+const { errorHandler } = require('../helpers/dbErrorHandler');
+const Advert = require('../models/advert');
 
 exports.signup = (req, res) => {
   User.findOne({ email: req.body.email }).exec((err, user) => {
@@ -100,6 +102,25 @@ exports.adminMiddleware = (req, res, next) => {
       });
     }
     req.profile = user;
+    next();
+  });
+};
+
+exports.canUpdateDeleteAdvert = (req, res, next) => {
+  const slug = req.params.slug.toLowerCase();
+  Advert.finOne({ slug }).exec((err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    let authorizedUser =
+      data.postedBy._id.toString() === req.profile._id.toString();
+    if (!authorizedUser) {
+      return res.status(400).json({
+        error: 'You are not authorized',
+      });
+    }
     next();
   });
 };

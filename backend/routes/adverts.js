@@ -11,12 +11,14 @@ const {
   photo,
   listRelated,
   listSearch,
+  listByUser,
 } = require('../controllers/advertsCtrlr');
 
 const {
   requireSignin,
   adminMiddleware,
   authMiddleware,
+  canUpdateDeleteAdvert,
 } = require('../controllers/authCtrlr');
 
 router.post('/advert', requireSignin, adminMiddleware, create);
@@ -32,7 +34,10 @@ router.get('/adverts/search', listSearch);
 // auth user advert crud
 
 router.post('/user/advert', requireSignin, authMiddleware, create);
-router.delete('/user/advert/:slug', requireSignin, authMiddleware, remove);
-router.put('/user/advert/:slug', requireSignin, authMiddleware, update);
+router.get('/:username/advertss', listByUser);
+// eslint-disable-next-line prettier/prettier
+router.delete('/user/advert/:slug', requireSignin, authMiddleware, canUpdateDeleteAdvert, remove);
+// eslint-disable-next-line prettier/prettier
+router.put('/user/advert/:slug', requireSignin, authMiddleware, canUpdateDeleteAdvert, update);
 
 module.exports = router;
