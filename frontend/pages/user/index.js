@@ -19,7 +19,7 @@ const UserIndex = () => {
                 </li>
 
                 <li className="list-group-item">
-                  <Link href="/user/crud/creates">
+                  <Link href="/user/crud/read">
                     <a>Update/Delete Advert</a>
                   </Link>
                 </li>

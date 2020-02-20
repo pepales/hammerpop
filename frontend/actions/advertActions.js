@@ -81,9 +81,17 @@ export const listRelated = advert => {
   );
 };
 
-export const list = () => {
+export const list = username => {
+  let listAdvertEndpoint;
+
+  if (username) {
+    listAdvertEndpoint = `${API}/${username}/adverts`;
+  } else {
+    listAdvertEndpoint = `${API}/adverts`;
+  }
+
   return (
-    fetch(`${API}/adverts`, {
+    fetch(`${listAdvertEndpoint}`, {
       method: 'GET',
     })
       .then(response => {
@@ -95,8 +103,15 @@ export const list = () => {
 };
 
 export const removeAdvert = (slug, token) => {
+  let deleteAdvertEndpoint;
+
+  if (isAuth() && isAuth().role === 1) {
+    deleteAdvertEndpoint = `${API}/advert/${slug}`;
+  } else if (isAuth() && isAuth().role === 0) {
+    deleteAdvertEndpoint = `${API}/user/advert/${slug}`;
+  }
   return (
-    fetch(`${API}/advert/${slug}`, {
+    fetch(`${deleteAdvertEndpoint}`, {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',
@@ -113,8 +128,15 @@ export const removeAdvert = (slug, token) => {
 };
 
 export const updateAdvert = (advert, token, slug) => {
+  let updateAdvertEndpoint;
+
+  if (isAuth() && isAuth().role === 1) {
+    updateAdvertEndpoint = `${API}/advert/${slug}`;
+  } else if (isAuth() && isAuth().role === 0) {
+    updateAdvertEndpoint = `${API}/user/advert/${slug}`;
+  }
   return (
-    fetch(`${API}/advert/${slug}`, {
+    fetch(`${updateAdvertEndpoint}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',

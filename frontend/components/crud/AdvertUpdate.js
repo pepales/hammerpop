@@ -206,9 +206,9 @@ const UpdateAdvert = ({ router }) => {
 
         window.setTimeout(() => {
           if (isAuth() && isAuth().role === 1) {
-            Router.replace(`/admin`);
+            Router.replace(`/admin/crud/read`);
           } else if (isAuth() && isAuth().role === 0) {
-            Router.replace(`/user`);
+            Router.replace(`/user/crud/read`);
           }
         }, 1900);
       }

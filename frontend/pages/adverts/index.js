@@ -30,7 +30,7 @@ const Adverts = ({ adverts, categories, tags, totalBlogs, advertsLimit, advertSk
       size > 0 &&
       size >= limit && (
         <button onClick={loadMore} className="btn btn-outline-primary btn-lg">
-          Load mmore
+          Load more
         </button>
       )
     );

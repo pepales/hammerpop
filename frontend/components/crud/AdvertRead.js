@@ -5,7 +5,7 @@ import moment from 'moment';
 import { getCookie, isAuth } from '../../actions/authActions';
 import { list, removeAdvert } from '../../actions/advertActions';
 
-const AdvertRead = () => {
+const AdvertRead = ({ username }) => {
   const [adverts, setadverts] = useState([]);
   const [message, setMessage] = useState('');
   const token = getCookie('token');
@@ -16,7 +16,7 @@ const AdvertRead = () => {
   }, []);
 
   const loadAdverts = () => {
-    list().then(data => {
+    list(username).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
