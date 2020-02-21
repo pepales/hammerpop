@@ -43,7 +43,6 @@ const Adverts = ({ adverts, categories, tags, totalAdverts, advertsLimit, advert
         <article key={i}>
           {console.log('mapeado advert', advert)}
           <Card advert={advert} />
-          <hr />
         </article>
       );
     });
@@ -92,8 +91,10 @@ const Adverts = ({ adverts, categories, tags, totalAdverts, advertsLimit, advert
             </section>
           </header>
         </div>
-        <div className="container-fluid">
-          <div className="col-md-12">{showAllAdverts()}</div>
+        <div className="container-fluid text-center">
+          <div className="d-inline-flex flex-row p-2 flex-wrap justify-content-center">
+            {showAllAdverts()}
+          </div>
           <div className="container-fluid">{showLoadedAdverts()}</div>
           <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
         </div>
