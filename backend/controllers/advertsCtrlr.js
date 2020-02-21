@@ -308,6 +308,8 @@ exports.listRelated = (req, res) => {
 
 exports.listSearch = (req, res) => {
   const { search } = req.query;
+
+  let adverts;
   if (search) {
     Advert.find(
       {
@@ -315,17 +317,23 @@ exports.listSearch = (req, res) => {
           { title: { $regex: search, $options: 'i' } },
           { description: { $regex: search, $options: 'i' } },
         ],
-      },
-      (err, adverts) => {
+      }
+
+      // we don't want to send
+    )
+      .populate('categories', '_id name slug')
+      .populate('tags', '_id name slug')
+      .populate('postedBy', '_id name username profile')
+      .select('-photo')
+      .exec((err, data) => {
         if (err) {
           return res.status(400).json({
             error: errorHandler(err),
           });
         }
-        res.json(adverts);
-      }
-      // we don't want to send
-    ).select('-photo');
+        adverts = data;
+        res.json({ adverts });
+      });
   }
 };
 

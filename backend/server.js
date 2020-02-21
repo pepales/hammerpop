@@ -25,8 +25,10 @@ mongoose
     useUnifiedTopology: true,
   })
   // eslint-disable-next-line no-console
-  .then(() => console.info('DB connected'));
-
+  .then(() => console.info('DB connected'))
+  .catch(err => {
+    console.log(err);
+  });
 mongoose.connection.on('error', function(err) {
   // eslint-disable-next-line no-console
   console.error('mongodb connection error:', err);

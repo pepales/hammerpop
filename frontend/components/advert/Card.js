@@ -4,14 +4,15 @@ import moment from 'moment';
 import { API } from '../../config';
 
 const Card = ({ advert }) => {
-  const showBlogCategories = advert =>
+  console.log('esta pasando', advert);
+  const showAdvertCategories = advert =>
     advert.categories.map((c, i) => (
       <Link key={i} href={`/categories/${c.slug}`}>
         <a className="btn btn-primary mr-1 ml-1 mt-3">{c.name}</a>
       </Link>
     ));
 
-  const showBlogTags = advert =>
+  const showAdvertTags = advert =>
     advert.tags.map((t, i) => (
       <Link key={i} href={`/tags/${t.slug}`}>
         <a className="btn btn-outline-primary mr-1 ml-1 mt-3">{t.name}</a>
@@ -37,8 +38,8 @@ const Card = ({ advert }) => {
         </p>
       </section>
       <section>
-        {showBlogCategories(advert)}
-        {showBlogTags(advert)}
+        {showAdvertCategories(advert)}
+        {showAdvertTags(advert)}
         <br />
         <br />
       </section>

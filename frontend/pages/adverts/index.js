@@ -6,10 +6,10 @@ import { listAdvertsWithCategoriesAndTags } from '../../actions/advertActions';
 import Card from '../../components/advert/Card';
 
 // eslint-disable-next-line prettier/prettier
-const Adverts = ({ adverts, categories, tags, totalBlogs, advertsLimit, advertSkip, router }) => {
+const Adverts = ({ adverts, categories, tags, totalAdverts, advertsLimit, advertSkip, router }) => {
   const [limit, setLimit] = useState(advertsLimit);
   const [skip, setSkip] = useState(0);
-  const [size, setSize] = useState(totalBlogs);
+  const [size, setSize] = useState(totalAdverts);
   const [loadedAdverts, setloadedAdverts] = useState([]);
 
   const loadMore = () => {
@@ -41,6 +41,7 @@ const Adverts = ({ adverts, categories, tags, totalBlogs, advertsLimit, advertSk
       // ()
       return (
         <article key={i}>
+          {console.log('mapeado advert', advert)}
           <Card advert={advert} />
           <hr />
         </article>
@@ -101,10 +102,10 @@ const Adverts = ({ adverts, categories, tags, totalBlogs, advertsLimit, advertSk
   );
 };
 
-Adverts.getInitialProps = () => {
+Adverts.getInitialProps = async () => {
   let skip = 0;
   let limit = 2;
-  return listAdvertsWithCategoriesAndTags().then(data => {
+  return await listAdvertsWithCategoriesAndTags().then(data => {
     if (data.error) {
       // eslint-disable-next-line no-console
       console.log(data.error);
@@ -113,7 +114,7 @@ Adverts.getInitialProps = () => {
         adverts: data.adverts,
         categories: data.categories,
         tags: data.tags,
-        totalBlogs: data.size,
+        totalAdverts: data.size,
         advertsLimit: limit,
         advertSkip: skip,
       };
@@ -121,4 +122,4 @@ Adverts.getInitialProps = () => {
   });
 };
 
-export default withRouter(Adverts);
+export default Adverts;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Router, { withRouter } from 'next/router';
 import Link from 'next/link';
 import { listSearch } from '../../actions/advertActions';
 
@@ -32,6 +33,11 @@ const Search = () => {
         results: data,
         searched: true,
         message: `${data.length} adverts found`,
+      });
+
+      Router.push({
+        pathname: `/searched`,
+        query: { search: search },
       });
     });
   };
@@ -91,13 +97,17 @@ const Search = () => {
   return (
     <div className="container-fluid">
       <div className="pt-3 pb-5">{searchForm()}</div>
-      {searched && (
+      {/* {searched && (
         <div style={{ marginTop: '-120px', marginBottom: '-80px' }}>
           {searchedAdverts(results)}
         </div>
-      )}
+      )} */}
     </div>
   );
 };
 
-export default Search;
+export default withRouter(Search);
+
+Search.getInitialProps = async () => {
+  return {};
+};
