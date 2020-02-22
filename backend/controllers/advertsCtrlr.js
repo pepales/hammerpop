@@ -276,7 +276,6 @@ exports.listSearch = (req, res) => {
 
   let limit = req.query.limit ? parseInt(req.query.limit) : 10;
   let skip = req.query.skip ? parseInt(req.query.skip) : 0;
-  console.log('que llega aqui', skip);
   let adverts;
   if (search) {
     Advert.find(

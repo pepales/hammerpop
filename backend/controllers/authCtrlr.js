@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const _ = require('lodash');
 const sgMail = require('@sendgrid/mail');
+const nodemailer = require('nodemailer');
 const User = require('../models/user');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 const Advert = require('../models/advert');
@@ -132,6 +133,7 @@ exports.canUpdateDeleteAdvert = (req, res, next) => {
 
 exports.forgotPassword = (req, res) => {
   const { email } = req.body;
+  console.log('que lleva email', typeof email);
 
   User.findOne({ email }, (err, user) => {
     if (err || !user) {
@@ -157,6 +159,7 @@ exports.forgotPassword = (req, res) => {
           <p>https://hammerpop.com</p>
       `,
     };
+
     // populating the db > user > resetPasswordLink
     return user.updateOne({ resetPasswordLink: token }, err => {
       if (err) {
@@ -183,8 +186,7 @@ exports.resetPassword = (req, res) => {
 
   if (resetPasswordLink) {
     jwt.verify(resetPasswordLink, process.env.JWT_RESET_PASSWORD, function(
-      err,
-      decoded
+      err
     ) {
       if (err) {
         return res.status(401).json({

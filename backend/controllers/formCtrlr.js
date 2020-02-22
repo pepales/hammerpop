@@ -51,9 +51,14 @@ exports.contactAdvertAuthorForm = (req, res) => {
         `,
   };
 
-  sgMail.send(emailData).then(() => {
-    return res.json({
-      success: true,
+  sgMail
+    .send(emailData)
+    .then(() => {
+      return res.json({
+        success: true,
+      });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
 };

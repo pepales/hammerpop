@@ -18,9 +18,9 @@ const Index = ({ tags }) => {
           hammerpop, la plataforma de compra-venta de wargames, desde la primera
           chusta de plástico hasta el último modelo chino
         </p>
-        <h2 className="display-4 font-weight-bold text-center">
+        <h5 className="display-4 font-weight-bold text-center">
           What army will be the next?
-        </h2>
+        </h5>
       </div>
       <section>
         <div className="pb-5 text-center">{showAllTags()}</div>

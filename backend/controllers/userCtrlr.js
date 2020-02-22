@@ -23,13 +23,10 @@ exports.publicProfile = (req, res) => {
     user = userFromDB;
     let userId = user._id;
     Advert.find({ postedBy: userId })
-      .populate('categories', '_id name slug')
       .populate('tags', '_id name slug')
       .populate('postedBy', '_id name')
       .limit(10)
-      .select(
-        '_id title slug description categories tags postedBy createdAt updatedAt'
-      )
+      .select('_id title slug description tags postedBy createdAt updatedAt')
       .exec((err, data) => {
         if (err) {
           return res.status(400).json({

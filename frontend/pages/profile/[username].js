@@ -7,7 +7,7 @@ import { API } from '../../config';
 import ContactForm from '../../components/form/ContactForm';
 
 const UserProfile = ({ user, adverts, query }) => {
-  const showUserBlogs = () => {
+  const showUserAdverts = () => {
     return adverts.map((blog, i) => {
       return (
         <div className="mt-4 mb-4" key={i}>
@@ -56,7 +56,7 @@ const UserProfile = ({ user, adverts, query }) => {
                     Recent adverts by {user.name}
                   </h5>
 
-                  {showUserBlogs()}
+                  {showUserAdverts()}
                 </div>
               </div>
             </div>

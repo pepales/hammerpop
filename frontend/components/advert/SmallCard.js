@@ -7,7 +7,7 @@ const SmallCard = ({ advert }) => {
   return (
     <div className="card">
       <section>
-        <Link href={`/blogs/${advert.slug}`}>
+        <Link href={`/adverts/${advert.slug}`}>
           <a>
             <img
               className="img img-fluid"
@@ -21,7 +21,7 @@ const SmallCard = ({ advert }) => {
 
       <div className="card-body">
         <section>
-          <Link href={`/blogs/${advert.slug}`}>
+          <Link href={`/adverts/${advert.slug}`}>
             <a>
               <h5 className="card-title">{advert.title}</h5>
             </a>
