@@ -129,7 +129,7 @@ export const updateUser = (user, next) => {
 
 export const forgotPassword = email => {
   return fetch(`${API}/forgot-password`, {
-    method: 'PUT',
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ export const forgotPassword = email => {
 
 export const resetPassword = resetInfo => {
   return fetch(`${API}/reset-password`, {
-    method: 'PUT',
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

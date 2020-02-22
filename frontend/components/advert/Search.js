@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import Router, { withRouter } from 'next/router';
-import Link from 'next/link';
-import { listSearch } from '../../actions/advertActions';
 
 const Search = () => {
   const searchFromLS = () => {
@@ -18,58 +16,49 @@ const Search = () => {
 
   const [values, setValues] = useState({
     search: searchFromLS(),
-    results: [],
-    searched: false,
+    price: 0,
+    adtype: '',
     message: '',
   });
 
-  const { search, results, searched, message } = values;
+  const { search, message, price, adtype } = values;
 
   const searchSubmit = e => {
     e.preventDefault();
-    listSearch({ search }).then(data => {
+    if (!search) {
       setValues({
         ...values,
-        results: data,
-        searched: true,
-        message: `${data.length} adverts found`,
+        message: `Search bar is empty please type any word to search`,
       });
-
+    } else {
+      setValues({
+        ...values,
+        price: 200,
+        adtype: 'buy',
+        message: false,
+      });
       Router.push({
         pathname: `/searched`,
-        query: { search: search },
+        query: { search: search, price: price, adtype: adtype },
       });
-    });
+    }
   };
 
   const handleChange = e => {
     setValues({
       ...values,
       search: e.target.value,
-      searched: false,
-      results: [],
     });
     if (typeof window !== 'undefined') {
       localStorage.setItem('search', e.target.value);
     }
   };
 
-  const searchedAdverts = (results = []) => {
-    return (
-      <div className="jumbotron bg-white">
-        {message && <p className="pt-4 text-muted font-italic">{message}</p>}
-
-        {results.map((advert, i) => {
-          return (
-            <div key={i}>
-              <Link href={`/adverts/${advert.slug}`}>
-                <a className="text-primary">{advert.title}</a>
-              </Link>
-            </div>
-          );
-        })}
-      </div>
-    );
+  const removeMsg = () => {
+    setValues({
+      ...values,
+      message: false,
+    });
   };
 
   const searchForm = () => (
@@ -81,6 +70,7 @@ const Search = () => {
             className="form-control"
             placeholder="Search adverts"
             onChange={handleChange}
+            onFocus={removeMsg}
             value={search}
           />
         </div>
@@ -95,14 +85,13 @@ const Search = () => {
   );
 
   return (
-    <div className="container-fluid">
-      <div className="pt-3 pb-5">{searchForm()}</div>
-      {/* {searched && (
-        <div style={{ marginTop: '-120px', marginBottom: '-80px' }}>
-          {searchedAdverts(results)}
-        </div>
-      )} */}
-    </div>
+    <React.Fragment>
+      <div className="container-fluid">
+        <div className="pt-3 pb-2">{searchForm()}</div>
+
+        {message && <p className="alert alert-danger w-25">{message}</p>}
+      </div>
+    </React.Fragment>
   );
 };
 

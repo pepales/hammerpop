@@ -309,14 +309,14 @@ exports.listRelated = (req, res) => {
 exports.listSearch = (req, res) => {
   const { search } = req.query;
 
+  let limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  let skip = req.query.skip ? parseInt(req.query.skip) : 0;
+  console.log('que llega aqui', skip);
   let adverts;
   if (search) {
     Advert.find(
       {
-        $or: [
-          { title: { $regex: search, $options: 'i' } },
-          { description: { $regex: search, $options: 'i' } },
-        ],
+        title: { $regex: search, $options: 'i' },
       }
 
       // we don't want to send
@@ -324,6 +324,9 @@ exports.listSearch = (req, res) => {
       .populate('categories', '_id name slug')
       .populate('tags', '_id name slug')
       .populate('postedBy', '_id name username profile')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
       .select('-photo')
       .exec((err, data) => {
         if (err) {

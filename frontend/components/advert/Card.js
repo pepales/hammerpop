@@ -4,7 +4,6 @@ import moment from 'moment';
 import { API } from '../../config';
 
 const Card = ({ advert }) => {
-  console.log('esta pasando', advert);
   const showAdvertCategories = advert =>
     advert.categories.map((c, i) => (
       <Link key={i} href={`/categories/${c.slug}`}>
@@ -49,9 +48,9 @@ const Card = ({ advert }) => {
           <p className="card-text">
             {showAdvertCategories(advert)}
             {showAdvertTags(advert)}
-            <hr />
-            <p className="text-truncate">{advert.description}</p>
           </p>
+          <hr />
+          <p className="text-truncate">{advert.description}</p>
           <Link href={`/adverts/${advert.slug}`}>
             <a className="btn btn-primary pt-2">Read more</a>
           </Link>

@@ -152,14 +152,15 @@ export const updateAdvert = (advert, token, slug) => {
   );
 };
 
-export const listSearch = params => {
+export const listSearch = (param1, param2, param3) => {
   // eslint-disable-next-line no-console
-  console.log('search params', params);
-  let query = queryString.stringify(params);
+  console.log('search params', param1, param2, param3);
+  let query = queryString.stringify(param1);
+  let qs = `${query}&skip=${param2}&limit=${param3}`;
   // eslint-disable-next-line no-console
-  console.log('query params', query);
+  console.log('query params', queryString.parse(qs));
   return (
-    fetch(`${API}/adverts/search?${query}`, {
+    fetch(`${API}/adverts/search?${qs}`, {
       method: 'GET',
     })
       .then(response => {

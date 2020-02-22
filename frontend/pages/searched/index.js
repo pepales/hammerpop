@@ -2,19 +2,15 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import Layout from '../../components/Layout';
-import {
-  listAdvertsWithCategoriesAndTags,
-  listSearch,
-} from '../../actions/advertActions';
+import { listSearch } from '../../actions/advertActions';
 import Card from '../../components/advert/Card';
 
-const Searched = ({ adverts, router }) => {
+const Searched = ({ adverts }) => {
   const showAllAdverts = () => {
     return adverts.map((advert, i) => {
       // ()
       return (
         <article key={i}>
-          {console.log('mapeado', advert)}
           <Card advert={advert} />
           <hr />
         </article>
@@ -49,8 +45,9 @@ const Searched = ({ adverts, router }) => {
 
 Searched.getInitialProps = async search => {
   let searched = search.query;
-  console.log('que es searched', searched);
-  return await listSearch(searched).then(data => {
+  let skip = 0;
+  let limit = 2;
+  return await listSearch(searched, skip, limit).then(data => {
     if (data.error) {
       // eslint-disable-next-line no-console
       console.log(data.error);
