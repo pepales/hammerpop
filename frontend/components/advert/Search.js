@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Router, { withRouter } from 'next/router';
+import { FaSearchDollar } from 'react-icons/fa';
+import { getTags } from '../../actions/tagActions';
+import '../../css/style.css';
 
 const Search = () => {
   const searchFromLS = () => {
@@ -16,12 +19,52 @@ const Search = () => {
 
   const [values, setValues] = useState({
     search: searchFromLS(),
-    price: 0,
+    minprice: 0,
+    maxprice: 0,
     adtype: '',
     message: '',
+    tags: [],
+    reload: false,
+    tag: '',
   });
 
-  const { search, message, price, adtype } = values;
+  const {
+    search,
+    message,
+    price,
+    adtype,
+    reload,
+    tags,
+    tag,
+    minprice,
+    maxprice,
+  } = values;
+
+  useEffect(() => {
+    loadTags();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reload]);
+
+  const loadTags = () => {
+    getTags().then(data => {
+      if (data.error) {
+        // eslint-disable-next-line no-console
+        console.log(data.error);
+      } else {
+        setValues({ ...values, tags: data });
+      }
+    });
+  };
+
+  const showTags = () => {
+    return tags.map((t, i) => {
+      return (
+        <option key={i} value={t._id}>
+          {t.name}
+        </option>
+      );
+    });
+  };
 
   const searchSubmit = e => {
     e.preventDefault();
@@ -30,28 +73,57 @@ const Search = () => {
         ...values,
         message: `Search bar is empty please type any word to search`,
       });
+    } else if (minprice >= maxprice) {
+      setValues({
+        ...values,
+        message: `min price can't be higher or equal to max price`,
+      });
+    } else if (!tag) {
+      setValues({
+        ...values,
+        message: `choose a tag to search`,
+      });
+    } else if (!adtype) {
+      setValues({
+        ...values,
+        message: `choose an ad type`,
+      });
     } else {
       setValues({
         ...values,
-        price: 200,
-        adtype: 'buy',
+        price: price,
+        adtype: adtype,
+        tag: tag,
         message: false,
       });
       Router.push({
         pathname: `/searched`,
-        query: { search: search, price: price, adtype: adtype },
+        query: {
+          search: search,
+          minprice: minprice,
+          maxprice: maxprice,
+          adtype: adtype,
+          tag: tag,
+        },
       });
     }
   };
 
-  const handleChange = e => {
+  const handleChangeLS = e => {
     setValues({
       ...values,
       search: e.target.value,
     });
     if (typeof window !== 'undefined') {
-      localStorage.setItem('search', e.target.value);
+      localStorage.setItem('search', search);
     }
+  };
+
+  const handleInput = e => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const removeMsg = () => {
@@ -69,7 +141,7 @@ const Search = () => {
             type="search"
             className="form-control"
             placeholder="Search adverts"
-            onChange={handleChange}
+            onChange={handleChangeLS}
             onFocus={removeMsg}
             value={search}
           />
@@ -80,6 +152,56 @@ const Search = () => {
             Search
           </button>
         </div>
+        <div className="col-md-4 input-group mb-3 mt-1">
+          <div className="input-group-prepend">
+            <label className="input-group-text" htmlFor="tagselect">
+              Tags
+            </label>
+          </div>
+          <select
+            name="tag"
+            className="custom-select"
+            id="tagselect"
+            onChange={handleInput}
+          >
+            <option defaultValue>Choose...</option>
+            {showTags()}
+          </select>
+        </div>
+        <div className="col-md-4 input-group mb-3 mt-1">
+          <FaSearchDollar size="1.5em" className="m-2" />
+          <input
+            type="number"
+            name="minprice"
+            className="form-control"
+            placeholder="min price"
+            onChange={handleInput}
+          />
+          <input
+            type="number"
+            name="maxprice"
+            className="form-control"
+            placeholder="max price"
+            onChange={handleInput}
+          />
+        </div>
+        <div className="col-md-4 input-group mb-3 mt-1">
+          <div className="input-group-prepend">
+            <label className="input-group-text" htmlFor="tagselect">
+              Ad type
+            </label>
+          </div>
+          <select
+            name="adtype"
+            className="custom-select"
+            id="adtypeselect"
+            onChange={handleInput}
+          >
+            <option defaultValue>Choose...</option>
+            <option value="buy">buy</option>
+            <option value="sell">sell</option>
+          </select>
+        </div>
       </div>
     </form>
   );
@@ -89,7 +211,7 @@ const Search = () => {
       <div className="container-fluid">
         <div className="pt-3 pb-2">{searchForm()}</div>
 
-        {message && <p className="alert alert-danger w-25">{message}</p>}
+        {message && <p className="alert alert-danger">{message}</p>}
       </div>
     </React.Fragment>
   );

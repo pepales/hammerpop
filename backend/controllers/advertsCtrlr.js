@@ -17,7 +17,7 @@ exports.create = (req, res) => {
       });
     }
 
-    const { title, description, price, adtype, categories, tags } = fields;
+    const { title, description, price, adtype, tags } = fields;
 
     let arrayTags = tags && tags.split(',');
 
@@ -272,7 +272,7 @@ exports.listRelated = (req, res) => {
 };
 
 exports.listSearch = (req, res) => {
-  const { search } = req.query;
+  const { search, tag, adtype, maxprice, minprice } = req.query;
 
   let limit = req.query.limit ? parseInt(req.query.limit) : 10;
   let skip = req.query.skip ? parseInt(req.query.skip) : 0;
@@ -282,6 +282,9 @@ exports.listSearch = (req, res) => {
     Advert.find(
       {
         title: { $regex: search, $options: 'i' },
+        tags: { $in: tag },
+        adtype: adtype,
+        price: { $lt: maxprice, $gt: minprice },
       }
 
       // we don't want to send
@@ -299,7 +302,7 @@ exports.listSearch = (req, res) => {
           });
         }
         adverts = data;
-        res.json({ adverts });
+        res.json({ adverts, size: adverts.length });
       });
   }
 };

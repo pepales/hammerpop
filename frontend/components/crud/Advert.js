@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-
-import Router, { withRouter } from 'next/router';
+import { withRouter } from 'next/router';
 
 import { getCookie, isAuth } from '../../actions/authActions';
-import { getCategories } from '../../actions/categoryActions';
 import { getTags } from '../../actions/tagActions';
 import { createAdvert } from '../../actions/advertActions';
 
 const CreateAdvert = ({ router }) => {
-  const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
-  const [checked, setChecked] = useState([]); // categories
   const [checkedTag, setCheckedTag] = useState([]); // tags
   const [values, setValues] = useState({
     error: '',
@@ -27,21 +22,18 @@ const CreateAdvert = ({ router }) => {
 
   const {
     error,
-    sizeError,
     success,
     formData,
     title,
     description,
     adtype,
     price,
-    hidePublishButton,
   } = values;
 
   const token = getCookie('token');
 
   useEffect(() => {
     setValues({ ...values, formData: new FormData() });
-    initCategories();
     initTags();
     // eslint-disable-next-line
   }, [router]);

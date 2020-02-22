@@ -5,7 +5,7 @@ import { listAdvertsWithCategoriesAndTags } from '../../actions/advertActions';
 import Card from '../../components/advert/Card';
 
 // eslint-disable-next-line prettier/prettier
-const Adverts = ({ adverts, categories, tags, totalAdverts, advertsLimit, advertSkip, router }) => {
+const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router }) => {
   const [limit, setLimit] = useState(advertsLimit);
   const [skip, setSkip] = useState(0);
   const [size, setSize] = useState(totalAdverts);
@@ -98,9 +98,9 @@ Adverts.getInitialProps = async () => {
       // eslint-disable-next-line no-console
       console.log(data.error);
     } else {
+      console.log('ENTRANDO');
       return {
         adverts: data.adverts,
-        categories: data.categories,
         tags: data.tags,
         totalAdverts: data.size,
         advertsLimit: limit,

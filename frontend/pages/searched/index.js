@@ -5,7 +5,8 @@ import Layout from '../../components/Layout';
 import { listSearch } from '../../actions/advertActions';
 import Card from '../../components/advert/Card';
 
-const Searched = ({ adverts }) => {
+const Searched = ({ adverts, totalAdverts }) => {
+  console.log('CUANTOS ADVERTS', totalAdverts);
   const showAllAdverts = () => {
     return adverts.map((advert, i) => {
       // ()
@@ -24,19 +25,20 @@ const Searched = ({ adverts }) => {
         <div className="container-fluid">
           <header>
             <div className="col-md-12 pt-3">
-              <h1 className="display-4 font-weight-bold text-center">
-                Búsqueda
-              </h1>
+              <h1 className="display-4 font-weight-bold text-center">Search</h1>
             </div>
             <section>
               <div className="pb-5 text-center">
+                <h3>{totalAdverts} adverts found </h3>
                 <br />
               </div>
             </section>
           </header>
         </div>
-        <div className="container-fluid">
-          <div className="col-md-12">{showAllAdverts()}</div>
+        <div className="container-fluid text-center">
+          <div className="d-inline-flex flex-row p-2 flex-wrap justify-content-center">
+            {showAllAdverts()}
+          </div>
         </div>
       </main>
     </Layout>
@@ -54,6 +56,7 @@ Searched.getInitialProps = async search => {
     } else {
       return {
         adverts: data.adverts,
+        totalAdverts: data.size,
       };
     }
   });
