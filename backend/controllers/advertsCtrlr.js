@@ -4,7 +4,6 @@ const slugify = require('slugify');
 const _ = require('lodash');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 const Advert = require('../models/advert');
-const Category = require('../models/category');
 const Tag = require('../models/tags');
 const User = require('../models/user');
 
@@ -19,7 +18,7 @@ exports.create = (req, res) => {
     }
 
     const { title, description, price, adtype, categories, tags } = fields;
-    let arrayCategories = categories && categories.split(',');
+
     let arrayTags = tags && tags.split(',');
 
     if (!title || !title.length) {
@@ -43,12 +42,6 @@ exports.create = (req, res) => {
     if (!price) {
       return res.status(400).json({
         error: 'Price can`t be empty',
-      });
-    }
-
-    if (!categories || categories.length === 0) {
-      return res.status(400).json({
-        error: 'At least one category is required',
       });
     }
 
@@ -87,7 +80,7 @@ exports.create = (req, res) => {
       // res.json(result);
       Advert.findByIdAndUpdate(
         result._id,
-        { $push: { categories: arrayCategories } },
+        { $push: { tags: arrayTags } },
         { new: true }
       ).exec((err, result) => {
         if (err) {
@@ -95,19 +88,7 @@ exports.create = (req, res) => {
             error: errorHandler(err),
           });
         } else {
-          Advert.findByIdAndUpdate(
-            result._id,
-            { $push: { tags: arrayTags } },
-            { new: true }
-          ).exec((err, result) => {
-            if (err) {
-              return res.status(400).json({
-                error: errorHandler(err),
-              });
-            } else {
-              res.json(result);
-            }
-          });
+          res.json(result);
         }
       });
     });
@@ -116,10 +97,9 @@ exports.create = (req, res) => {
 
 exports.list = (req, res) => {
   Advert.find({})
-    .populate('categories', '_id name slug')
     .populate('tags', '_id name slug')
     .populate('postedBy', '_id name username')
-    .select('_id title slug categories tags postedBy createdAt updatedAt')
+    .select('_id title slug tags postedBy createdAt updatedAt')
     .exec((err, data) => {
       if (err) {
         return res.json({
@@ -135,18 +115,16 @@ exports.listAllAdvertCategoriesTags = (req, res) => {
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
 
   let adverts;
-  let categories;
   let tags;
 
   Advert.find({})
-    .populate('categories', '_id name slug')
     .populate('tags', '_id name slug')
     .populate('postedBy', '_id name username profile')
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .select(
-      '_id title slug description categories tags postedBy createdAt updatedAt price adtype'
+      '_id title slug description tags postedBy createdAt updatedAt price adtype'
     )
     .exec((err, data) => {
       if (err) {
@@ -155,25 +133,17 @@ exports.listAllAdvertCategoriesTags = (req, res) => {
         });
       }
       adverts = data; // adverts
-      // get all categories
-      Category.find({}).exec((err, c) => {
+
+      // get all tags
+      Tag.find({}).exec((err, t) => {
         if (err) {
           return res.json({
             error: errorHandler(err),
           });
         }
-        categories = c; // categories
-        // get all tags
-        Tag.find({}).exec((err, t) => {
-          if (err) {
-            return res.json({
-              error: errorHandler(err),
-            });
-          }
-          tags = t;
-          // return all adverts categories tags
-          res.json({ adverts, categories, tags, size: adverts.length });
-        });
+        tags = t;
+        // return all adverts tags
+        res.json({ adverts, tags, size: adverts.length });
       });
     });
 };
@@ -181,11 +151,10 @@ exports.listAllAdvertCategoriesTags = (req, res) => {
 exports.read = (req, res) => {
   const slug = req.params.slug.toLowerCase();
   Advert.findOne({ slug })
-    .populate('categories', '_id name slug')
     .populate('tags', '_id name slug')
     .populate('postedBy', '_id name username')
     .select(
-      '_id title slug description adtype price mtitle mdesc categories tags postedBy createdAt updatedAt'
+      '_id title slug description adtype price mtitle mdesc tags postedBy createdAt updatedAt'
     )
     .exec((err, data) => {
       if (err) {
@@ -235,14 +204,10 @@ exports.update = (req, res) => {
       oldAdvert = _.merge(oldAdvert, fields);
       oldAdvert.slug = slugBeforeMerge;
 
-      const { description, categories, tags } = fields;
+      const { description, tags } = fields;
 
       if (description) {
         oldAdvert.description = description;
-      }
-
-      if (categories) {
-        oldAdvert.categories = categories.split(',');
       }
 
       if (tags) {
@@ -289,9 +254,9 @@ exports.photo = (req, res) => {
 
 exports.listRelated = (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 3;
-  const { _id, categories } = req.body.advert;
+  const { _id, tags } = req.body.advert;
 
-  Advert.find({ _id: { $ne: _id }, categories: { $in: categories } })
+  Advert.find({ _id: { $ne: _id }, tags: { $in: tags } })
     .limit(limit)
     .populate('postedBy', '_id name username profile')
     .select('title slug description postedBy createdAt updatedAt')
@@ -321,7 +286,6 @@ exports.listSearch = (req, res) => {
 
       // we don't want to send
     )
-      .populate('categories', '_id name slug')
       .populate('tags', '_id name slug')
       .populate('postedBy', '_id name username profile')
       .sort({ createdAt: -1 })
@@ -349,7 +313,6 @@ exports.listByUser = (req, res) => {
     }
     let userId = user._id;
     Advert.find({ postedBy: userId })
-      .populate('categories', '_id name slug')
       .populate('tags', '_id name slug')
       .populate('postedBy', '_id name username')
       .select('_id title slug postedBy createdAt updatedAt')

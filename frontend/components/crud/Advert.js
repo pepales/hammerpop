@@ -46,16 +46,6 @@ const CreateAdvert = ({ router }) => {
     // eslint-disable-next-line
   }, [router]);
 
-  const initCategories = () => {
-    getCategories().then(data => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setCategories(data);
-      }
-    });
-  };
-
   const initTags = () => {
     getTags().then(data => {
       if (data.error) {
@@ -92,22 +82,6 @@ const CreateAdvert = ({ router }) => {
     setValues({ ...values, [name]: value, formData, error: '' });
   };
 
-  const handleToggle = c => () => {
-    setValues({ ...values, error: '' });
-    // return the first index or -1
-    const clickedCategory = checked.indexOf(c);
-    const all = [...checked];
-
-    if (clickedCategory === -1) {
-      all.push(c);
-    } else {
-      all.splice(clickedCategory, 1);
-    }
-    console.log(all);
-    setChecked(all);
-    formData.set('categories', all);
-  };
-
   const handleTagsToggle = t => () => {
     setValues({ ...values, error: '' });
     // return the first index or -1
@@ -122,22 +96,6 @@ const CreateAdvert = ({ router }) => {
     console.log(all);
     setCheckedTag(all);
     formData.set('tags', all);
-  };
-
-  const showCategories = () => {
-    return (
-      categories &&
-      categories.map((c, i) => (
-        <li key={i} className="list-unstyled">
-          <input
-            onChange={handleToggle(c._id)}
-            type="checkbox"
-            className="mr-2"
-          />
-          <label className="form-check-label">{c.name}</label>
-        </li>
-      ))
-    );
   };
 
   const showTags = () => {
@@ -272,14 +230,6 @@ const CreateAdvert = ({ router }) => {
                 />
               </label>
             </div>
-          </div>
-          <div>
-            <h5>Categories</h5>
-            <hr />
-
-            <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>
-              {showCategories()}
-            </ul>
           </div>
           <div>
             <h5>Tags</h5>

@@ -24,13 +24,6 @@ const SingleAdvert = ({ advert }) => {
     // eslint-disable-next-line
   }, []);
 
-  const showAdvertCategories = advert =>
-    advert.categories.map((c, i) => (
-      <Link key={i} href={`/categories/${c.slug}`}>
-        <a className="btn btn-primary mr-1 ml-1 mt-3">{c.name}</a>
-      </Link>
-    ));
-
   const showAdvertTags = advert =>
     advert.tags.map((t, i) => (
       <Link key={i} href={`/tags/${t.slug}`}>
@@ -74,7 +67,6 @@ const SingleAdvert = ({ advert }) => {
                 </p>
 
                 <div className="pb-3">
-                  {showAdvertCategories(advert)}
                   {showAdvertTags(advert)}
                   <br />
                   <br />

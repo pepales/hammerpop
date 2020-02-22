@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Router, { withRouter } from 'next/router';
 import { getCookie, isAuth } from '../../actions/authActions';
-import { getCategories } from '../../actions/categoryActions';
+
 import { getTags } from '../../actions/tagActions';
 import { singleAdvert, updateAdvert } from '../../actions/advertActions';
 import Timer from '../Timer';
 
 const UpdateAdvert = ({ router }) => {
-  const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
 
-  const [checked, setChecked] = useState([]); // categories
   const [checkedTag, setCheckedTag] = useState([]); // tags
   const [values, setValues] = useState({
     error: '',
@@ -37,7 +35,6 @@ const UpdateAdvert = ({ router }) => {
   useEffect(() => {
     setValues({ ...values, formData: new FormData() });
     initAdvert();
-    initCategories();
     initTags();
     // eslint-disable-next-line
   }, [router]);
@@ -58,19 +55,10 @@ const UpdateAdvert = ({ router }) => {
             price: data.price,
             adtype: data.adtype,
           });
-          setCategoriesArray(data.categories);
           setTagsArray(data.tags);
         }
       });
     }
-  };
-
-  const setCategoriesArray = advertCategories => {
-    let ca = [];
-    advertCategories.map((c, i) => {
-      ca.push(c._id);
-    });
-    setChecked(ca);
   };
 
   const setTagsArray = advertTags => {
@@ -81,16 +69,6 @@ const UpdateAdvert = ({ router }) => {
     setCheckedTag(ta);
   };
 
-  const initCategories = () => {
-    getCategories().then(data => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setCategories(data);
-      }
-    });
-  };
-
   const initTags = () => {
     getTags().then(data => {
       if (data.error) {
@@ -99,22 +77,6 @@ const UpdateAdvert = ({ router }) => {
         setTags(data);
       }
     });
-  };
-
-  const handleToggle = c => () => {
-    setValues({ ...values, error: '' });
-    // return the first index or -1
-    const clickedCategory = checked.indexOf(c);
-    const all = [...checked];
-
-    if (clickedCategory === -1) {
-      all.push(c);
-    } else {
-      all.splice(clickedCategory, 1);
-    }
-    console.log(all);
-    setChecked(all);
-    formData.set('categories', all);
   };
 
   const handleTagsToggle = t => () => {
@@ -131,15 +93,6 @@ const UpdateAdvert = ({ router }) => {
     console.log(all);
     setCheckedTag(all);
     formData.set('tags', all);
-  };
-
-  const findOutCategory = c => {
-    const result = checked.indexOf(c);
-    if (result !== -1) {
-      return true;
-    } else {
-      return false;
-    }
   };
 
   const findOutTag = t => {

@@ -4,13 +4,6 @@ import moment from 'moment';
 import { API } from '../../config';
 
 const Card = ({ advert }) => {
-  const showAdvertCategories = advert =>
-    advert.categories.map((c, i) => (
-      <Link key={i} href={`/categories/${c.slug}`}>
-        <a className="badge badge-pill badge-primary ml-1">{c.name}</a>
-      </Link>
-    ));
-
   const showAdvertTags = advert =>
     advert.tags.map((t, i) => (
       <Link key={i} href={`/tags/${t.slug}`}>
@@ -45,10 +38,7 @@ const Card = ({ advert }) => {
               </a>
             </Link>
           </h5>
-          <p className="card-text">
-            {showAdvertCategories(advert)}
-            {showAdvertTags(advert)}
-          </p>
+          <p className="card-text">{showAdvertTags(advert)}</p>
           <hr />
           <p className="text-truncate">{advert.description}</p>
           <Link href={`/adverts/${advert.slug}`}>
