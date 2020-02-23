@@ -5,7 +5,7 @@ import { API } from '../../config';
 
 const SmallCard = ({ advert }) => {
   return (
-    <div className="card">
+    <div className="card" style={{ width: '24rem' }}>
       <section>
         <Link href={`/adverts/${advert.slug}`}>
           <a>

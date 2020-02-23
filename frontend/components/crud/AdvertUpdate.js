@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Router, { withRouter } from 'next/router';
 import { getCookie, isAuth } from '../../actions/authActions';
-
 import { getTags } from '../../actions/tagActions';
 import { singleAdvert, updateAdvert } from '../../actions/advertActions';
 import Timer from '../Timer';
@@ -102,23 +101,6 @@ const UpdateAdvert = ({ router }) => {
     } else {
       return false;
     }
-  };
-
-  const showCategories = () => {
-    return (
-      categories &&
-      categories.map((c, i) => (
-        <li key={i} className="list-unstyled">
-          <input
-            onChange={handleToggle(c._id)}
-            checked={findOutCategory(c._id)}
-            type="checkbox"
-            className="mr-2"
-          />
-          <label className="form-check-label">{c.name}</label>
-        </li>
-      ))
-    );
   };
 
   const showTags = () => {
@@ -285,14 +267,6 @@ const UpdateAdvert = ({ router }) => {
                 />
               </label>
             </div>
-          </div>
-          <div>
-            <h5>Categories</h5>
-            <hr />
-
-            <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>
-              {showCategories()}
-            </ul>
           </div>
           <div>
             <h5>Tags</h5>

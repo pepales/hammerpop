@@ -40,7 +40,6 @@ const advertSchema = new mongoose.Schema(
       data: Buffer,
       contentType: String,
     },
-    categories: [{ type: ObjectId, ref: 'Category', required: true }],
     tags: [{ type: ObjectId, ref: 'Tag', required: true }],
     postedBy: {
       type: ObjectId,

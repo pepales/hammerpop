@@ -41,7 +41,7 @@ const Tag = () => {
           onClick={() => deleteConfirm(t.slug)}
           title="click to delete"
           key={i}
-          className="btn btn-outline-primary mr-1 ml-1 mt-3"
+          className="btn btn-outline-secondary mr-1 ml-1 mt-3"
           type="button"
         >
           {t.name}
@@ -191,7 +191,7 @@ const Tag = () => {
         </label>
       </div>
       <div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-secondary">
           Create
         </button>
       </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Router from 'next/router';
+
 import moment from 'moment';
 import { getCookie, isAuth } from '../../actions/authActions';
 import { list, removeAdvert } from '../../actions/advertActions';

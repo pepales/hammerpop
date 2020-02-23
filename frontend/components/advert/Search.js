@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Router, { withRouter } from 'next/router';
+import { UncontrolledCollapse } from 'reactstrap';
 import { FaSearchDollar } from 'react-icons/fa';
 import { getTags } from '../../actions/tagActions';
 import '../../css/style.css';
@@ -135,6 +136,7 @@ const Search = () => {
 
   const searchForm = () => (
     <form onSubmit={searchSubmit}>
+      {/* INPUT SEARCH */}
       <div className="row">
         <div className="col-md-8">
           <input
@@ -146,12 +148,13 @@ const Search = () => {
             value={search}
           />
         </div>
-
+        {/* SUBMIT BUTTON */}
         <div className="col-md-4">
-          <button className="btn btn-block btn-outline-primary" type="submit">
+          <button className="btn btn-block btn-secondary" type="submit">
             Search
           </button>
         </div>
+        {/* INPUT FILTERS */}
         <div className="col-md-4 input-group mb-3 mt-1">
           <div className="input-group-prepend">
             <label className="input-group-text" htmlFor="tagselect">
@@ -209,10 +212,11 @@ const Search = () => {
   return (
     <React.Fragment>
       <div className="container-fluid">
-        <div className="pt-3 pb-2">{searchForm()}</div>
-
-        {message && <p className="alert alert-danger">{message}</p>}
+        <UncontrolledCollapse toggler="#toggler">
+          <div className="pt-3 pb-2">{searchForm()}</div>
+        </UncontrolledCollapse>
       </div>
+      {message && <p className="alert alert-danger">{message}</p>}
     </React.Fragment>
   );
 };

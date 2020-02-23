@@ -8,17 +8,18 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Button,
 } from 'reactstrap';
 import Router from 'next/router';
 // import icons & css
 import '../css/style.css';
-import { FaUserAlt } from 'react-icons/fa';
+import { FaSearchPlus } from 'react-icons/fa';
 //
 import { signout, isAuth } from '../actions/authActions';
 // import imgs
-// import logo from '../public/static/img/logo.jpg';
+import logo from '../public/static/img/logo.png';
 // import env variables
-import { APP_NAME } from '../config';
+// import { APP_NAME } from '../config';
 import Search from './advert/Search';
 
 const Header = () => {
@@ -31,38 +32,23 @@ const Header = () => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">
-          {/* <img src={logo} alt="hammerpop" /> */}
-          {APP_NAME}
+        <NavbarBrand href="/" className="logo-responsive">
+          <img src={logo} alt="hammerpop" className="w-100" />
         </NavbarBrand>
-
         <NavbarToggler onClick={toggle} />
-
         <Collapse isOpen={isOpen} navbar>
-          <Nav className="ml-auto" navbar>
-            <React.Fragment>
-              <NavItem>
-                <Link href="/contact">
-                  <NavLink className="cursorpointer">Contact</NavLink>
-                </Link>
-              </NavItem>
-            </React.Fragment>
-            <React.Fragment>
-              <NavItem>
-                <Link href="/adverts">
-                  <NavLink className="cursorpointer">Adverts</NavLink>
-                </Link>
-              </NavItem>
-            </React.Fragment>
+          <Nav navbar>
+            <NavItem>
+              <Link href="/contact">
+                <NavLink className="cursorpointer">Contact</NavLink>
+              </Link>
+            </NavItem>
 
             {!isAuth() && (
               <React.Fragment>
                 <NavItem>
                   <Link href="/signup">
-                    <NavLink className="cursorpointer">
-                      <FaUserAlt className="mr-1" />
-                      Sign up
-                    </NavLink>
+                    <NavLink className="cursorpointer">Sign up</NavLink>
                   </Link>
                 </NavItem>
                 <NavItem>
@@ -100,12 +86,34 @@ const Header = () => {
                 </Link>
               </NavItem>
             )}
+          </Nav>
+        </Collapse>
 
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <Link href="/adverts">
+                <Button outline color="secondary" className="mr-02 mb-01">
+                  Adverts List
+                </Button>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Button
+                outline
+                color="secondary"
+                id="toggler"
+                className="mr-02 mb-01"
+              >
+                <FaSearchPlus className="mr-1" />
+                Search
+              </Button>
+            </NavItem>
             <NavItem>
               <Link href="/user/crud/create">
-                <NavLink className="btn btn-primary text-light">
+                <Button outline color="secondary" className="mb-01">
                   Publish an advert
-                </NavLink>
+                </Button>
               </Link>
             </NavItem>
           </Nav>

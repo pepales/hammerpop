@@ -20,6 +20,7 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
         setloadedAdverts([...loadedAdverts, ...data.adverts]);
         setSize(data.size);
         setSkip(toSkip);
+        console.log('que sale', data.size);
       }
     });
   };
@@ -28,7 +29,7 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
     return (
       size > 0 &&
       size >= limit && (
-        <button onClick={loadMore} className="btn btn-outline-primary btn-lg">
+        <button onClick={loadMore} className="btn btn-outline-secondary btn-lg">
           Load more
         </button>
       )
@@ -40,7 +41,6 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
       // ()
       return (
         <article key={i}>
-          {console.log('mapeado advert', advert)}
           <Card advert={advert} />
         </article>
       );
@@ -50,7 +50,7 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
   const showAllTags = () => {
     return tags.map((t, i) => (
       <Link href={`/tags/${t.slug}`} key={i}>
-        <a className="btn btn-outline-primary mr-1 ml-1 mt-3">{t.name}</a>
+        <a className="btn btn-secondary mr-1 ml-1 mt-3">{t.name}</a>
       </Link>
     ));
   };
@@ -70,7 +70,7 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
           <header>
             <div className="col-md-12 pt-3">
               <h1 className="display-4 font-weight-bold text-center">
-                Compra Plástico
+                Adverts {totalAdverts}
               </h1>
             </div>
             <section>
@@ -79,10 +79,12 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
           </header>
         </div>
         <div className="container-fluid text-center">
-          <div className="d-inline-flex flex-row p-2 flex-wrap justify-content-center">
+          <div className="d-flex flex-row p-2 flex-wrap justify-content-center">
             {showAllAdverts()}
           </div>
-          <div className="container-fluid">{showLoadedAdverts()}</div>
+          <div className="d-flex flex-row p-2 flex-wrap justify-content-center">
+            {showLoadedAdverts()}
+          </div>
           <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
         </div>
       </main>
@@ -92,13 +94,12 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
 
 Adverts.getInitialProps = async () => {
   let skip = 0;
-  let limit = 2;
+  let limit = 0;
   return await listAdvertsWithCategoriesAndTags().then(data => {
     if (data.error) {
       // eslint-disable-next-line no-console
       console.log(data.error);
     } else {
-      console.log('ENTRANDO');
       return {
         adverts: data.adverts,
         tags: data.tags,

@@ -4,3 +4,56 @@
 .react-icons {
     vertical-align: middle;
 }
+
+.logo-responsive {
+    width: 12%
+}
+
+.w-12 {
+    width: 12%;
+}
+
+.w-65 {
+    width: 65%;
+}
+
+.w-45 {
+    width: 45%;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.mr-02 {
+    margin-right: 0.2rem
+}
+
+.mb-01 {
+    margin-bottom: 0.1rem
+}
+
+.mb-10 {
+    margin-bottom: 6rem
+}
+
+.fsize-10 {
+    font-size: 10px;
+}
+
+.fsize-12 {
+    font-size: 12px;
+}
+
+.size-responsive50 {
+    width: 50%
+}
+
+@media(max-width: 992px) {
+    .size-responsive50 {
+        width: 100%
+    }
+    .logo-responsive {
+        width: 50%
+    }
+}
