@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import Router from 'next/router';
 // import icons & css
-import '../css/style.css';
+// import '../css/style.css';
 import { FaSearchPlus } from 'react-icons/fa';
 //
 import { signout, isAuth } from '../actions/authActions';
