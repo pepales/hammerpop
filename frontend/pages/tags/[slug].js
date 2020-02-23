@@ -1,9 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
-import moment from 'moment';
 import Layout from '../../components/Layout';
 import { singleTag } from '../../actions/tagActions';
-import { API } from '../../config';
 import Card from '../../components/advert/Card';
 
 const Tag = ({ tag, adverts }) => {
@@ -15,12 +12,13 @@ const Tag = ({ tag, adverts }) => {
             <header>
               <div className="col-md-12 pt-3">
                 <h1 className="display-4 font-weight-bold">{tag.name}</h1>
-                {adverts.map((advert, i) => (
-                  <div key={i}>
-                    <Card advert={advert} />
-                    <hr />
-                  </div>
-                ))}
+                <div className="d-flex flex-row p-2 flex-wrap justify-content-center">
+                  {adverts.map((advert, i) => (
+                    <article key={i}>
+                      <Card advert={advert} />
+                    </article>
+                  ))}
+                </div>
               </div>
             </header>
           </div>

@@ -20,7 +20,7 @@ const Index = ({ tags }) => {
           find every plastic bit you wouldn't find elsewhere!!
         </p>
         <h5 className="display-4 font-weight-bold text-center">
-          Which will be your next army?
+          Gods of war are calling you
         </h5>
       </div>
       <section>

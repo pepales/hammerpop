@@ -23,9 +23,16 @@ const Card = ({ advert }) => {
             <span className="badge badge-pill badge-success float-left">
               {advert.price}€
             </span>
-            <span className="badge badge-pill badge-warning float-right">
-              <b>{advert.adtype}</b>
-            </span>
+            {advert.adtype === 'sell' && (
+              <span className="badge badge-pill badge-info float-right">
+                <b>{advert.adtype}</b>
+              </span>
+            )}
+            {advert.adtype === 'buy' && (
+              <span className="badge badge-pill badge-danger float-right">
+                <b>{advert.adtype}</b>
+              </span>
+            )}
           </h3>
         </div>
 

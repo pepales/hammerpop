@@ -8,7 +8,7 @@ const Contact = () => {
     <Layout>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-8 offset-md-2">
+          <div className="col-md-8 offset-md-2 mt-5">
             <h2>Contact form</h2>
             <hr />
             <ContactForm />

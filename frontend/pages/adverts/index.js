@@ -94,7 +94,7 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
 
 Adverts.getInitialProps = async () => {
   let skip = 0;
-  let limit = 0;
+  let limit = 2;
   return await listAdvertsWithCategoriesAndTags().then(data => {
     if (data.error) {
       // eslint-disable-next-line no-console
