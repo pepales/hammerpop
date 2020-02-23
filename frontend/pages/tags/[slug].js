@@ -31,6 +31,7 @@ const Tag = ({ tag, adverts }) => {
 Tag.getInitialProps = ({ query }) => {
   return singleTag(query.slug).then(data => {
     if (data.error) {
+      // eslint-disable-next-line no-console
       console.log(data.error);
     } else {
       return { tag: data.tag, adverts: data.adverts };
