@@ -70,17 +70,17 @@ Install all the required npm packages both in backend and frontend folders:
 
 BACKEND
 
--NODE_ENV = development
--PORT = 8000
--CLIENT_URL = http://localhost:3000
--APP_NAME = hammerpop
--DATABASE_LOCAL = 'mongodb://localhost:27017/hammerpop'
--MONGO_URI=mongodb+srv://user:VmWsRhqjOAsfRkur@nodeapi-rgpvl.mongodb.net/NodeApi?retryWrites=true&w=majority
--JWT_SECRET = lajfalh32480uqgjkfms939393fjakñsfn3i34981aksdoqpwkdowqkKAODKAOEKEKLÑALDKL!!)·)DKA
--SENDGRID_API_KEY = API_KEY (you should create a sendgrid account and generate an api key)
--EMAIL_TO = email
--EMAIL_FROM = email
--JWT_RESET_PASSWORD = UnCWwqtU8Paxs9XMXvKV9TjLky
+*NODE_ENV = development
+*PORT = 8000
+*CLIENT_URL = http://localhost:3000
+*APP_NAME = hammerpop
+*DATABASE_LOCAL = 'mongodb://localhost:27017/hammerpop'
+*MONGO_URI=mongodb+srv://user:VmWsRhqjOAsfRkur@nodeapi-rgpvl.mongodb.net/NodeApi?retryWrites=true&w=majority
+*JWT_SECRET = lajfalh32480uqgjkfms939393fjakñsfn3i34981aksdoqpwkdowqkKAODKAOEKEKLÑALDKL!!)·)DKA
+*SENDGRID_API_KEY = API_KEY (you should create a sendgrid account and generate an api key)
+*EMAIL_TO = email
+*EMAIL_FROM = email
+*JWT_RESET_PASSWORD = UnCWwqtU8Paxs9XMXvKV9TjLky
 
 
 FRONTEND
