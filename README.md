@@ -12,7 +12,7 @@ Some of the main features of this web application:
 * API secured with json web token authentication.
 * Usage of mongodb as the database.
 
-#DEPENDENCIES
+# DEPENDENCIES
 
 Frontend:
 
