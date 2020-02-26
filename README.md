@@ -7,10 +7,10 @@ http://35.180.126.161:3000/
 
 Some of the main features of this web application:
 
-Single Page Application written in MERN Stack (Mongoose, Express, React Next JS and Node)
-Responsive design using flexbox. And several components from bootstrap and reactstrap
-API secured with json web token authentication.
-Usage of mongodb as the database.
+* Single Page Application written in MERN Stack (Mongoose, Express, React Next JS and Node)
+* Responsive design using flexbox. And several components from bootstrap and reactstrap
+* API secured with json web token authentication.
+* Usage of mongodb as the database.
 
 #DEPENDENCIES
 
