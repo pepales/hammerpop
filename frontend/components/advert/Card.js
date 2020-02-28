@@ -5,7 +5,7 @@ import { API } from '../../config';
 const Card = ({ advert }) => {
   const showAdvertTags = advert =>
     advert.tags.map((t, i) => (
-      <Link key={i} href={`/tags/${t.slug}`}>
+      <Link key={i} href={`/tags/${t.slug}`} as={`/tags/${t.slug}`}>
         <a className="badge badge-pill badge-light ml-1">#{t.name}</a>
       </Link>
     ));
@@ -15,7 +15,7 @@ const Card = ({ advert }) => {
       <div className="card m-2" style={{ width: '18rem' }}>
         <img
           className="card-img-top"
-          src={`${API}/advert/photo/${advert.slug}`}
+          src={`${API}/img/${advert.photo}`}
           alt={advert.title}
         />
         <div className="card-header">
@@ -38,7 +38,10 @@ const Card = ({ advert }) => {
 
         <div className="card-body">
           <h5 className="card-title">
-            <Link href={`/adverts/${advert.slug}`}>
+            <Link
+              href={`/adverts/${advert.slug}`}
+              as={`/adverts/${advert.slug}`}
+            >
               <a>
                 <h3 className="font-weight-bold">{advert.title}</h3>
               </a>

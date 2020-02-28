@@ -11,6 +11,7 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const tagRoutes = require('./routes/tag');
 const formRoutes = require('./routes/form');
+var publicDir = require('path').join(__dirname, '/public');
 // app
 
 const app = express();
@@ -61,7 +62,7 @@ app.use((req, res, next) => {
 // }
 
 // routes middleware
-
+app.use('/api/img', express.static(publicDir));
 app.use('/api', advertsRoutes);
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);

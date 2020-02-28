@@ -67,8 +67,14 @@ exports.create = (req, res) => {
           error: 'Image should be less then 1mb in size',
         });
       }
-      advert.photo.data = fs.readFileSync(files.photo.path);
-      advert.photo.contentType = files.photo.type;
+      var oldpath = files.photo.path;
+      var newpath = '/images/adverts/' + files.photo.name;
+      fs.rename(oldpath, newpath, err => {
+        if (err) throw err;
+        // eslint-disable-next-line no-console
+        console.log('File uploaded and moved!');
+      });
+      advert.photo = `/images/adverts/${files.photo.name}`;
     }
 
     advert.save((err, result) => {
@@ -97,13 +103,11 @@ exports.create = (req, res) => {
 
 exports.list = (req, res) => {
   Advert.find({})
-    .populate('tags', '_id name slug')
-    .populate('postedBy', '_id name username')
     .select('_id title slug tags postedBy createdAt updatedAt')
     .exec((err, data) => {
       if (err) {
         return res.json({
-          error: errorHandler(err),
+          error: err,
         });
       }
       res.json(data);
@@ -118,13 +122,12 @@ exports.listAllAdvertCategoriesTags = (req, res) => {
   let tags;
 
   Advert.find({})
-    .populate('tags', '_id name slug')
-    .populate('postedBy', '_id name username profile')
+
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .select(
-      '_id title slug description tags postedBy createdAt updatedAt price adtype'
+      '_id title slug description tags postedBy createdAt updatedAt price adtype photo'
     )
     .exec((err, data) => {
       if (err) {
@@ -220,8 +223,14 @@ exports.update = (req, res) => {
             error: 'Image should be less then 1mb in size',
           });
         }
-        oldAdvert.photo.data = fs.readFileSync(files.photo.path);
-        oldAdvert.photo.contentType = files.photo.type;
+        var oldpath = files.photo.path;
+        var newpath = '/images/adverts/' + files.photo.name;
+        fs.rename(oldpath, newpath, err => {
+          if (err) throw err;
+          // eslint-disable-next-line no-console
+          console.log('File uploaded and moved!');
+        });
+        oldAdvert.photo = `/images/adverts/${files.photo.name}`;
       }
 
       oldAdvert.save((err, result) => {
@@ -247,8 +256,8 @@ exports.photo = (req, res) => {
           error: errorHandler(err),
         });
       }
-      res.set('Content-Type', advert.photo.contentType);
-      return res.send(advert.photo.data);
+      // res.set('Content-Type', advert.photo.contentType);
+      return res.send(advert.photo);
     });
 };
 

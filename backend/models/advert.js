@@ -37,8 +37,7 @@ const advertSchema = new mongoose.Schema(
       type: String,
     },
     photo: {
-      data: Buffer,
-      contentType: String,
+      type: String,
     },
     tags: [{ type: ObjectId, ref: 'Tag', required: true }],
     postedBy: {
