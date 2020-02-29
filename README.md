@@ -2,7 +2,7 @@
 Hammerpop is my final project for the Keepcoding Fullstack Web Development Bootcamp (VII edition).
 
 Deployed project:
-http://35.180.126.161:3000/
+http://15.188.208.152/
 
 
 Some of the main features of this web application:
