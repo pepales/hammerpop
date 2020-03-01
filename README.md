@@ -130,5 +130,5 @@ module.exports = withCSS(
 # NOTES
 
 
-#### If you use ad-blocker it might be the adverts images won't load.
+#### * If you use ad-blocker it might be the adverts images won't load.
  
