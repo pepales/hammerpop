@@ -21,7 +21,7 @@ exports.signup = (req, res) => {
 
     const { name, email, password } = req.body;
     const username = shortId.generate();
-    const profile = `${process.env.CLIENT_URL}/profile/${username}`;
+    const profile = `${process.env.CLIENT_URL}profile/${username}`;
 
     const newUser = new User({ name, email, password, profile, username });
     newUser.save(err => {
@@ -153,7 +153,7 @@ exports.forgotPassword = (req, res) => {
       subject: `Password reset link`,
       html: `
           <p>Please use the following link to reset your password:</p>
-          <p>${process.env.CLIENT_URL}/auth/password/reset/${token}</p>
+          <p>${process.env.CLIENT_URL}auth/password/reset/${token}</p>
           <hr />
           <p>This email may contain sensetive information</p>
           <p>https://hammerpop.com</p>
