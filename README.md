@@ -105,7 +105,18 @@ module.exports = withCSS(
 );
 
 ---------------//
+# WEBSITE USERS
 
+* User admin ----
+        username: admin@email.com
+        password: 123456
+* User user1 ----
+        username: user1@email.com
+        password: 123456
+* User user2 ----
+        username: user2@email.com
+        password: 123456
+        
 
 # START APLICATION
 
@@ -115,5 +126,9 @@ module.exports = withCSS(
 
 \hammerpop\frontend\npm run dev
 
+
+# PD
+
+# For sorme reason website doesn't load on firefox correctly, please use Chrome to test the website
 
  
