@@ -2,7 +2,7 @@
 Hammerpop is my final project for the Keepcoding Fullstack Web Development Bootcamp (VII edition).
 
 Deployed project:
-http://www.cavernworld.com/
+http://cavernworld.com/
 
 
 Some of the main features of this web application:
