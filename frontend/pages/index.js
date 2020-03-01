@@ -7,7 +7,7 @@ import { listAdvertsWithCategoriesAndTags } from '../actions/advertActions';
 const Index = ({ tags }) => {
   const showAllTags = () => {
     return tags.map((t, i) => (
-      <Link href={`/tags/${t.slug}`} key={i}>
+      <Link href="/tags/[slug]" as={`/tags/${t.slug}`} key={i}>
         <a className="btn btn-secondary mr-1 ml-1 mt-3">{t.name}</a>
       </Link>
     ));
