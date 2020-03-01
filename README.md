@@ -129,6 +129,6 @@ module.exports = withCSS(
 
 # NOTES
 
-<aside class="warning">
+<aside class="notice">
 If you use ad-blocker it might be the adverts images won't load.
 </aside> 
