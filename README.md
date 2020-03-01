@@ -127,8 +127,8 @@ module.exports = withCSS(
 \hammerpop\frontend\npm run dev
 
 
-# PD
+# NOTES
 
-# For sorme reason website doesn't load on firefox correctly, please use Chrome to test the website
-
- 
+<aside class="warning">
+If you use ad-blocker it might be the adverts images won't load.
+</aside> 
