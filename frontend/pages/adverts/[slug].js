@@ -27,7 +27,7 @@ const SingleAdvert = ({ advert }) => {
 
   const showAdvertTags = advert =>
     advert.tags.map((t, i) => (
-      <Link key={i} href={`/tags/${t.slug}`}>
+      <Link href="/tags/[slug]" as={`/tags/${t.slug}`} key={i}>
         <a className="btn btn-secondary mr-1 ml-1 mt-3">{t.name}</a>
       </Link>
     ));
@@ -50,13 +50,16 @@ const SingleAdvert = ({ advert }) => {
             <div className="card mr-5" style={{ width: '24rem' }}>
               <div className="card-body">
                 Posted {moment(advert.updatedAt).fromNow()} by{' '}
-                <Link href={`/profile/${advert.postedBy.username}`}>
+                <Link
+                  href="/profile/[username]"
+                  as={`/profile/${advert.postedBy.username}`}
+                >
                   <a>{advert.postedBy.username}</a>
                 </Link>
               </div>
               <img
                 className="card-img-top"
-                src={`${API}/advert/photo/${advert.slug}`}
+                src={`${API}/img/${advert.photo}`}
                 alt={advert.title}
               />
               <div className="card-header">
@@ -72,7 +75,7 @@ const SingleAdvert = ({ advert }) => {
 
               <div className="card-body">
                 <h5 className="card-title">
-                  <Link href={`/adverts/${advert.slug}`}>
+                  <Link href="/adverts/[slug]" as={`/adverts/${advert.slug}`}>
                     <a>
                       <h3 className="font-weight-bold">{advert.title}</h3>
                     </a>
@@ -109,41 +112,3 @@ SingleAdvert.getInitialProps = ({ query }) => {
 };
 
 export default SingleAdvert;
-
-{
-  /* <main>
-          <article>
-            <div className="container-fluid">
-              <section>
-                <div className="row" style={{ marginTop: '-30px' }}>
-                  <img
-                    src={`${API}/advert/photo/${advert.slug}`}
-                    alt={advert.title}
-                    className="img img-fluid featured-image"
-                  />
-                </div>
-              </section>
-
-              <section>
-                <p className="lead mt-3 mark">
-                  Written by{' '}
-                  <Link href={`/profile/${advert.postedBy.username}`}>
-                    <a>{advert.postedBy.username}</a>
-                  </Link>{' '}
-                  | Published {moment(advert.updatedAt).fromNow()}
-                </p>
-
-                <div className="pb-3">
-                  {showAdvertTags(advert)}
-                  <br />
-                  <br />
-                </div>
-              </section>
-            </div>
-
-            <div className="container">
-              <section>
-                <div className="col-md-12 lead">{advert.description}</div>
-              </section>
-            </div> */
-}

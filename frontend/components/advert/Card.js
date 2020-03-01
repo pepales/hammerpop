@@ -5,7 +5,7 @@ import { API } from '../../config';
 const Card = ({ advert }) => {
   const showAdvertTags = advert =>
     advert.tags.map((t, i) => (
-      <Link key={i} href={`/tags/${t.slug}`} as={`/tags/${t.slug}`}>
+      <Link href="/tags/[slug]" as={`/tags/${t.slug}`} key={i}>
         <a className="badge badge-pill badge-light ml-1">#{t.name}</a>
       </Link>
     ));
@@ -38,10 +38,7 @@ const Card = ({ advert }) => {
 
         <div className="card-body">
           <h5 className="card-title">
-            <Link
-              href={`/adverts/${advert.slug}`}
-              as={`/adverts/${advert.slug}`}
-            >
+            <Link href="/adverts/[slug]" as={`/adverts/${advert.slug}`}>
               <a>
                 <h3 className="font-weight-bold">{advert.title}</h3>
               </a>
@@ -50,7 +47,7 @@ const Card = ({ advert }) => {
           <p className="card-text">{showAdvertTags(advert)}</p>
           <hr />
           <p className="text-truncate">{advert.description}</p>
-          <Link href={`/adverts/${advert.slug}`}>
+          <Link href="/adverts/[slug]" as={`/adverts/${advert.slug}`}>
             <a className="btn btn-secondary pt-2">Read more</a>
           </Link>
         </div>

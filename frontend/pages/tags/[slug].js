@@ -4,6 +4,7 @@ import { singleTag } from '../../actions/tagActions';
 import Card from '../../components/advert/Card';
 
 const Tag = ({ tag, adverts }) => {
+  console.log('QUE SACAS EN TAG', tag);
   return (
     <React.Fragment>
       <Layout>

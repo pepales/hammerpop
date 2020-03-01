@@ -122,7 +122,7 @@ exports.listAllAdvertCategoriesTags = (req, res) => {
   let tags;
 
   Advert.find({})
-
+    .populate('tags', '_id name slug')
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
@@ -157,7 +157,7 @@ exports.read = (req, res) => {
     .populate('tags', '_id name slug')
     .populate('postedBy', '_id name username')
     .select(
-      '_id title slug description adtype price mtitle mdesc tags postedBy createdAt updatedAt'
+      '_id title slug description adtype price mtitle mdesc tags postedBy createdAt updatedAt photo'
     )
     .exec((err, data) => {
       if (err) {
@@ -268,7 +268,7 @@ exports.listRelated = (req, res) => {
   Advert.find({ _id: { $ne: _id }, tags: { $in: tags } })
     .limit(limit)
     .populate('postedBy', '_id name username profile')
-    .select('title slug description postedBy createdAt updatedAt')
+    .select('title slug description postedBy createdAt updatedAt photo')
     .exec((err, adverts) => {
       if (err) {
         return res.status(400).json({

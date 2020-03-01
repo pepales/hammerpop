@@ -6,6 +6,7 @@ import Card from '../../components/advert/Card';
 
 // eslint-disable-next-line prettier/prettier
 const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router }) => {
+
   const [limit, setLimit] = useState(advertsLimit);
   const [skip, setSkip] = useState(0);
   const [size, setSize] = useState(totalAdverts);
@@ -49,7 +50,7 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
 
   const showAllTags = () => {
     return tags.map((t, i) => (
-      <Link href={`/tags/${t.slug}`} key={i}>
+      <Link href="/tags/[slug]" as={`/tags/${t.slug}`} key={i}>
         <a className="btn btn-secondary mr-1 ml-1 mt-3">{t.name}</a>
       </Link>
     ));
