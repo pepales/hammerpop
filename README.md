@@ -1,8 +1,8 @@
 # hammerpop
-Hammerpop is my final project for the Keepcoding Fullstack Web Development Bootcamp (VII edition).
+Hammerpop is my final project for the Keepcoding Fullstack Web Development Bootcamp (VII edition). It was a 2 weeks and a half project, there are a lot of features I had to leave behind, it was fun and challenging at the same time.
 
 Deployed project:
-http://www.cavernworld.com/
+https://www.cavernworld.com/
 
 
 Some of the main features of this web application:
@@ -127,8 +127,8 @@ module.exports = withCSS(
 \hammerpop\frontend\npm run dev
 
 
-# PD
+# NOTES
 
-# For sorme reason website doesn't load on firefox correctly, please use Chrome to test the website
 
+#### * If you use ad-blocker it might be the adverts images won't load.
  
