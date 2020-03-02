@@ -63,8 +63,8 @@ https://github.com/pepales/hammerpop.git
 Install dependencies
 Install all the required npm packages both in backend and frontend folders:
 
-\hammerpop\backend\npm install
-\hammerpop\frontend\npm install
+* \hammerpop\backend\npm install
+* \hammerpop\frontend\npm install
 
 # ENV VARIABLES
 
