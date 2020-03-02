@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Layout from '../../components/Layout';
 import { listSearch } from '../../actions/advertActions';
 import Card from '../../components/advert/Card';
@@ -57,6 +58,11 @@ Searched.getInitialProps = async search => {
       };
     }
   });
+};
+
+Searched.propTypes = {
+  adverts: PropTypes.object,
+  totalAdverts: PropTypes.number,
 };
 
 export default Searched;

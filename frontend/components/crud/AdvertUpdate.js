@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Router, { withRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import { getCookie, isAuth } from '../../actions/authActions';
 import { getTags } from '../../actions/tagActions';
 import { singleAdvert, updateAdvert } from '../../actions/advertActions';
@@ -39,14 +40,12 @@ const UpdateAdvert = ({ router }) => {
   }, [router]);
 
   const initAdvert = () => {
-    console.log('que lleva', router.query.slug);
     if (router.query.slug) {
       singleAdvert(router.query.slug).then(data => {
         if (data.error) {
           // eslint-disable-next-line
           console.log(data.error);
         } else {
-          console.log('PRECIO', data.price);
           setValues({
             ...values,
             title: data.title,
@@ -62,7 +61,7 @@ const UpdateAdvert = ({ router }) => {
 
   const setTagsArray = advertTags => {
     let ta = [];
-    advertTags.map((t, i) => {
+    advertTags.map(t => {
       ta.push(t._id);
     });
     setCheckedTag(ta);
@@ -89,7 +88,7 @@ const UpdateAdvert = ({ router }) => {
     } else {
       all.splice(clickedTag, 1);
     }
-    console.log(all);
+
     setCheckedTag(all);
     formData.set('tags', all);
   };
@@ -279,6 +278,10 @@ const UpdateAdvert = ({ router }) => {
       </div>
     </div>
   );
+};
+
+UpdateAdvert.propTypes = {
+  router: PropTypes.node,
 };
 
 export default withRouter(UpdateAdvert);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { getCookie, isAuth } from '../../actions/authActions';
 import { list, removeAdvert } from '../../actions/advertActions';
@@ -18,6 +18,7 @@ const AdvertRead = ({ username }) => {
   const loadAdverts = () => {
     list(username).then(data => {
       if (data.error) {
+        // eslint-disable-next-line no-console
         console.log(data.error);
       } else {
         setadverts(data);
@@ -28,6 +29,7 @@ const AdvertRead = ({ username }) => {
   const deleteAdvert = slug => {
     removeAdvert(slug, token).then(data => {
       if (data.error) {
+        // eslint-disable-next-line no-console
         console.log(data.error);
       } else {
         setMessage(data.message);
@@ -71,6 +73,7 @@ const AdvertRead = ({ username }) => {
           <button
             className="btn btn-sm btn-danger"
             onClick={() => deleteConfirm(advert.slug)}
+            type="button"
           >
             Delete
           </button>
@@ -89,6 +92,10 @@ const AdvertRead = ({ username }) => {
       </div>
     </React.Fragment>
   );
+};
+
+AdvertRead.propTypes = {
+  username: PropTypes.object,
 };
 
 export default AdvertRead;

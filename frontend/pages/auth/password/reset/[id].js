@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'next/router';
 import Layout from '../../../../components/Layout';
 import { resetPassword } from '../../../../actions/authActions';
@@ -51,7 +52,9 @@ const ResetPassword = ({ router }) => {
         />
       </div>
       <div>
-        <button className="btn btn-primary">Change password</button>
+        <button type="button" className="btn btn-primary">
+          Change password
+        </button>
       </div>
     </form>
   );
@@ -72,6 +75,10 @@ const ResetPassword = ({ router }) => {
       </div>
     </Layout>
   );
+};
+
+ResetPassword.propTypes = {
+  router: PropTypes.node,
 };
 
 export default withRouter(ResetPassword);

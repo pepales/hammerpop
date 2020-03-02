@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Layout from '../../components/Layout';
 import { singleTag } from '../../actions/tagActions';
 import Card from '../../components/advert/Card';
@@ -37,6 +38,11 @@ Tag.getInitialProps = ({ query }) => {
       return { tag: data.tag, adverts: data.adverts };
     }
   });
+};
+
+Tag.propTypes = {
+  adverts: PropTypes.object,
+  tag: PropTypes.object,
 };
 
 export default Tag;

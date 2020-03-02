@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
 import { listAdvertsWithCategoriesAndTags } from '../../actions/advertActions';
@@ -16,12 +17,12 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
     let toSkip = skip + limit;
     listAdvertsWithCategoriesAndTags(toSkip, limit).then(data => {
       if (data.error) {
+        // eslint-disable-next-line no-console
         console.log(data.error);
       } else {
         setloadedAdverts([...loadedAdverts, ...data.adverts]);
         setSize(data.size);
         setSkip(toSkip);
-        console.log('que sale', data.size);
       }
     });
   };
@@ -30,7 +31,11 @@ const Adverts = ({ adverts, tags, totalAdverts, advertsLimit, advertSkip, router
     return (
       size > 0 &&
       size >= limit && (
-        <button onClick={loadMore} className="btn btn-outline-secondary btn-lg">
+        <button
+          onClick={loadMore}
+          type="button"
+          className="btn btn-outline-secondary btn-lg"
+        >
           Load more
         </button>
       )
@@ -110,6 +115,15 @@ Adverts.getInitialProps = async () => {
       };
     }
   });
+};
+
+Adverts.propTypes = {
+  adverts: PropTypes.object,
+  tags: PropTypes.object,
+  router: PropTypes.node,
+  totalAdverts: PropTypes.number,
+  advertsLimit: PropTypes.number,
+  advertSkip: PropTypes.number,
 };
 
 export default Adverts;

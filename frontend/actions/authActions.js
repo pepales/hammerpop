@@ -128,31 +128,37 @@ export const updateUser = (user, next) => {
 };
 
 export const forgotPassword = email => {
-  return fetch(`${API}/forgot-password`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(email),
-  })
-    .then(response => {
-      return response.json();
+  return (
+    fetch(`${API}/forgot-password`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(email),
     })
-    .catch(err => console.log(err));
+      .then(response => {
+        return response.json();
+      })
+      // eslint-disable-next-line no-console
+      .catch(err => console.log(err))
+  );
 };
 
 export const resetPassword = resetInfo => {
-  return fetch(`${API}/reset-password`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(resetInfo),
-  })
-    .then(response => {
-      return response.json();
+  return (
+    fetch(`${API}/reset-password`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(resetInfo),
     })
-    .catch(err => console.log(err));
+      .then(response => {
+        return response.json();
+      })
+      // eslint-disable-next-line no-console
+      .catch(err => console.log(err))
+  );
 };

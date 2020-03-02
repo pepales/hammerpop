@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import moment from 'moment';
 import { API } from '../../config';
@@ -41,6 +42,10 @@ const SmallCard = ({ advert }) => {
       </div>
     </div>
   );
+};
+
+SmallCard.propTypes = {
+  advert: PropTypes.object,
 };
 
 export default SmallCard;

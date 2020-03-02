@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'next/router';
-
-import { getCookie, isAuth } from '../../actions/authActions';
+import { getCookie } from '../../actions/authActions';
 import { getTags } from '../../actions/tagActions';
 import { createAdvert } from '../../actions/advertActions';
 
@@ -85,7 +85,6 @@ const CreateAdvert = ({ router }) => {
     } else {
       all.splice(clickedTag, 1);
     }
-    console.log(all);
     setCheckedTag(all);
     formData.set('tags', all);
   };
@@ -234,6 +233,10 @@ const CreateAdvert = ({ router }) => {
       </div>
     </div>
   );
+};
+
+CreateAdvert.propTypes = {
+  router: PropTypes.node,
 };
 
 export default withRouter(CreateAdvert);

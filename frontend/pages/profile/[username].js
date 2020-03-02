@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import moment from 'moment';
 import Layout from '../../components/Layout';
@@ -83,12 +84,20 @@ UserProfile.getInitialProps = ({ query }) => {
   // console.log(query);
   return userPublicProfile(query.username).then(data => {
     if (data.error) {
+      // eslint-disable-next-line no-console
       console.log(data.error);
     } else {
+      // eslint-disable-next-line no-console
       console.log(data);
       return { user: data.user, adverts: data.adverts, query };
     }
   });
+};
+
+UserProfile.propTypes = {
+  adverts: PropTypes.object,
+  user: PropTypes.object,
+  query: PropTypes.object,
 };
 
 export default UserProfile;

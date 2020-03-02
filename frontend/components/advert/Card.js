@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { API } from '../../config';
 
@@ -54,6 +55,10 @@ const Card = ({ advert }) => {
       </div>
     </React.Fragment>
   );
+};
+
+Card.propTypes = {
+  advert: PropTypes.object,
 };
 
 export default Card;

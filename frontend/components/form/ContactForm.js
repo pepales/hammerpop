@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { emailContactForm } from '../../actions/formAction';
 
 const ContactForm = ({ authorEmail }) => {
@@ -17,7 +18,7 @@ const ContactForm = ({ authorEmail }) => {
   const clickSubmit = e => {
     e.preventDefault();
     setValues({ ...values, buttonText: 'Sending...' });
-    console.log('QUE TENEMOS', authorEmail, name, email, message);
+
     emailContactForm({ authorEmail, name, email, message }).then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error });
@@ -97,7 +98,9 @@ const ContactForm = ({ authorEmail }) => {
         </div>
 
         <div>
-          <button className="btn btn-secondary">{buttonText}</button>
+          <button className="btn btn-secondary" type="button">
+            {buttonText}
+          </button>
         </div>
       </form>
     );
@@ -110,6 +113,10 @@ const ContactForm = ({ authorEmail }) => {
       {contactForm()}
     </React.Fragment>
   );
+};
+
+ContactForm.propTypes = {
+  authorEmail: PropTypes.object,
 };
 
 export default ContactForm;

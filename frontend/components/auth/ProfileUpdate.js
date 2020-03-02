@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Router from 'next/router';
-import { getCookie, isAuth, updateUser } from '../../actions/authActions';
+import { getCookie, updateUser } from '../../actions/authActions';
 import { getProfile, update } from '../../actions/userActions';
 import { API } from '../../config';
 
@@ -63,6 +61,7 @@ const ProfileUpdate = () => {
     const value = name === 'photo' ? e.target.files[0] : e.target.value;
     // let userData = new FormData();
     userData.set(name, value);
+    // eslint-disable-next-line no-console
     console.log(...userData); // SEE THE FORMDATA IN CONSOLE
     setValues({
       ...values,
@@ -79,6 +78,7 @@ const ProfileUpdate = () => {
     setValues({ ...values, loading: true });
     update(token, userData).then(data => {
       if (data.error) {
+        // eslint-disable-next-line no-console
         console.log('data.error', data.error);
         setValues({ ...values, error: data.error, loading: false });
       } else {

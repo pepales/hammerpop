@@ -10,16 +10,19 @@ export const emailContactForm = data => {
     emailEndpoint = `${API}/contact`;
   }
 
-  return fetch(`${emailEndpoint}`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-    .then(response => {
-      return response.json();
+  return (
+    fetch(`${emailEndpoint}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     })
-    .catch(err => console.log(err));
+      .then(response => {
+        return response.json();
+      })
+      // eslint-disable-next-line no-console
+      .catch(err => console.log(err))
+  );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import moment from 'moment';
 import Layout from '../../components/Layout';
@@ -13,6 +14,7 @@ const SingleAdvert = ({ advert }) => {
   const loadRelated = () => {
     listRelated({ advert }).then(data => {
       if (data.error) {
+        // eslint-disable-next-line no-console
         console.log(data.error);
       } else {
         setRelated(data);
@@ -104,11 +106,16 @@ const SingleAdvert = ({ advert }) => {
 SingleAdvert.getInitialProps = ({ query }) => {
   return singleAdvert(query.slug).then(data => {
     if (data.error) {
+      // eslint-disable-next-line no-console
       console.log(data.error);
     } else {
       return { advert: data, query };
     }
   });
+};
+
+SingleAdvert.propTypes = {
+  advert: PropTypes.object,
 };
 
 export default SingleAdvert;

@@ -51,7 +51,9 @@ const ForgotPassword = () => {
         />
       </div>
       <div>
-        <button className="btn btn-primary">Send password reset link</button>
+        <button className="btn btn-primary" type="button">
+          Send password reset link
+        </button>
       </div>
     </form>
   );
