@@ -87,23 +87,24 @@ FRONTEND
 
 Create a next.config.js file and type the following code:
 
+~~~~
+const withImages = require('next-images');
+const withCSS = require('@zeit/next-css');
 
->const withImages = require('next-images');
->const withCSS = require('@zeit/next-css');
+module.exports = withCSS(
+  withImages({
+    publicRuntimeConfig: {
+      APP_NAME: 'hammerpop',
+      API_DEVELOPMENT: 'http://localhost:8000/api',
+      API_PRODUCTION: 'http://localhost:8000/api',
+      PRODUCTION: false,
+      DOMAIN_DEVELOPMENT: 'http://localhost:3000',
+      DOMAIN_PRODUCTION: 'http://localhost:3000',
+    },
+  })
+);
 
->module.exports = withCSS(
->  withImages({
->    publicRuntimeConfig: {
->      APP_NAME: 'hammerpop',
->      API_DEVELOPMENT: 'http://localhost:8000/api',
->      API_PRODUCTION: 'http://localhost:8000/api',
->      PRODUCTION: false,
->      DOMAIN_DEVELOPMENT: 'http://localhost:3000',
->      DOMAIN_PRODUCTION: 'http://localhost:3000',
->    },
->  })
->);
-
+~~~~
 
 # WEBSITE USERS
 
