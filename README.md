@@ -1,10 +1,6 @@
 # hammerpop
 Hammerpop is my final project for the Keepcoding Fullstack Web Development Bootcamp (VII edition). It was a 2 weeks and a half project, there are a lot of features I had to leave behind, it was fun and challenging at the same time.
 
-Deployed project:
-https://www.cavernworld.com/
-
-
 Some of the main features of this web application:
 
 * Single Page Application written in MERN Stack (Mongoose, Express, React Next JS and Node)
